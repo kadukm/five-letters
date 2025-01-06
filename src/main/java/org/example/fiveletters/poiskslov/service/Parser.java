@@ -1,10 +1,14 @@
 package org.example.fiveletters.poiskslov.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.example.fiveletters.util.WordMatcher;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+@Slf4j
 public class Parser {
 
     private final Document doc;
@@ -19,6 +23,19 @@ public class Parser {
     }
 
     public List<String> parseWords() {
-        return doc.select("div.word-length-5.page-suschestvitelnye a.nsob").eachText();
+        List<String> parsedWords = doc.select("div.word-length-5.page-suschestvitelnye a.nsob").eachText();
+
+        List<String> result = new ArrayList<>(parsedWords.size());
+
+        for (String word : parsedWords) {
+            if (!WordMatcher.MATCH_PREDICATE.test(word)) {
+                log.warn("Word {} in incorrect format, skip it", word);
+                continue;
+            }
+
+            result.add(word.toLowerCase());
+        }
+
+        return result;
     }
 }

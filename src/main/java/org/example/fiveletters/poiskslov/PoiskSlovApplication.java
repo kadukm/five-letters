@@ -2,7 +2,7 @@ package org.example.fiveletters.poiskslov;
 
 import org.example.fiveletters.poiskslov.service.Crawler;
 import org.example.fiveletters.poiskslov.service.Parser;
-import org.example.fiveletters.poiskslov.service.Saver;
+import org.example.fiveletters.util.WordsSaver;
 
 public class PoiskSlovApplication {
 
@@ -10,7 +10,7 @@ public class PoiskSlovApplication {
 
     public static void main(String[] args) throws Exception {
         Crawler crawler = new Crawler();
-        Saver saver = new Saver();
+        WordsSaver wordsSaver = new WordsSaver();
 
         for (char letter : LETTERS.toCharArray()) {
             int page = 0;
@@ -19,12 +19,12 @@ public class PoiskSlovApplication {
             do {
                 String html = crawler.getHtml(letter, page);
                 parser = new Parser(html);
-                saver.add(parser.parseWords());
+                wordsSaver.add(parser.parseWords());
 
                 page++;
             } while (parser.hasNextPage());
         }
 
-        saver.save();
+        wordsSaver.save("dictionaries/поиск-слов.txt");
     }
 }
