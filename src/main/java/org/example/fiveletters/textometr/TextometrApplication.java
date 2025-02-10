@@ -25,8 +25,8 @@ public class TextometrApplication {
             logProgress(i, words.size());
         }
 
-        saver.save("dictionaries/open-corpora-frequency.txt");
-//        saver.save("dictionaries/поиск-слов-frequency.txt");
+        saver.save("dictionaries/frequency/open-corpora-frequency.txt");
+//        saver.save("dictionaries/frequency/поиск-слов-frequency.txt");
     }
 
     private static void logProgress(int i, int tuplesCount) {

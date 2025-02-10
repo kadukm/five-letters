@@ -25,6 +25,6 @@ public class PoiskSlovApplication {
             } while (parser.hasNextPage());
         }
 
-        wordsSaver.save("dictionaries/поиск-слов.txt");
+        wordsSaver.save("dictionaries/plain/поиск-слов.txt");
     }
 }

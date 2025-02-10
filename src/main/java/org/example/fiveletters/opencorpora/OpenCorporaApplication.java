@@ -14,6 +14,6 @@ public class OpenCorporaApplication {
         WordsSaver wordsSaver = new WordsSaver();
         wordsSaver.add(words);
 
-        wordsSaver.save("dictionaries/open-corpora.txt");
+        wordsSaver.save("dictionaries/plain/open-corpora.txt");
     }
 }
