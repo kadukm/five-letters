@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.uniquebeginningsearch.service;
+package org.example.fiveletters.solving.beginningsearch.uniqueletters.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,8 +8,8 @@ import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.util.MaskUtils;
-import org.example.fiveletters.solving.uniquebeginningsearch.dto.Beginning;
-import org.example.fiveletters.solving.uniquebeginningsearch.dto.UniqueLetterWord;
+import org.example.fiveletters.solving.beginningsearch.util.dto.Beginning;
+import org.example.fiveletters.solving.beginningsearch.uniqueletters.dto.UniqueLetterWord;
 
 @Slf4j
 public class BruteForceBeginningSearcher {

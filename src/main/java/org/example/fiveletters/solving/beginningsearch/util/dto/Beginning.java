@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.uniquebeginningsearch.dto;
+package org.example.fiveletters.solving.beginningsearch.util.dto;
 
 import java.util.HashSet;
 import java.util.Set;

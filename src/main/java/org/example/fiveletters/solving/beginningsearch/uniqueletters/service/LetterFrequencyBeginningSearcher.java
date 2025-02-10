@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.uniquebeginningsearch.service;
+package org.example.fiveletters.solving.beginningsearch.uniqueletters.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,8 +7,8 @@ import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.example.fiveletters.solving.common.domain.Word;
-import org.example.fiveletters.solving.uniquebeginningsearch.dto.Beginning;
-import org.example.fiveletters.solving.uniquebeginningsearch.dto.UniqueLetterWord;
+import org.example.fiveletters.solving.beginningsearch.util.dto.Beginning;
+import org.example.fiveletters.solving.beginningsearch.uniqueletters.dto.UniqueLetterWord;
 
 @Slf4j
 public class LetterFrequencyBeginningSearcher{
@@ -61,7 +61,7 @@ public class LetterFrequencyBeginningSearcher{
             if (nextBeginning.getWordsCount() == wordCountToFind) {
                 result.add(nextBeginning);
 
-                log.info(String.join(" ", nextBeginning.getWords().stream().map(Word::toString).toList()));
+                log.debug(String.join(" ", nextBeginning.getWords().stream().map(Word::toString).toList()));
             } else {
                 LetterFrequencyBeginningSearcher nextSearcher = remove(uniqueLetterWord);
                 nextSearcher.findBeginningsInternal(result, usedBeginnings, nextBeginning);

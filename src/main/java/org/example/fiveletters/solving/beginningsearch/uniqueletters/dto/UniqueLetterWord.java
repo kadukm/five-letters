@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.uniquebeginningsearch.dto;
+package org.example.fiveletters.solving.beginningsearch.uniqueletters.dto;
 
 import java.util.Optional;
 import lombok.Getter;

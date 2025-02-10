@@ -1,22 +1,23 @@
-package org.example.fiveletters.solving.uniquebeginningsearch;
+package org.example.fiveletters.solving.beginningsearch.uniqueletters;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.example.fiveletters.solving.beginningsearch.util.dto.FilteringResult;
 import org.example.fiveletters.solving.common.dictionary.all.AllWordsDictionary;
 import org.example.fiveletters.solving.common.dictionary.all.WordSource;
-import org.example.fiveletters.solving.uniquebeginningsearch.dto.Beginning;
-import org.example.fiveletters.solving.uniquebeginningsearch.service.BeginningFilteringService;
-import org.example.fiveletters.solving.uniquebeginningsearch.service.BruteForceBeginningSearcher;
+import org.example.fiveletters.solving.beginningsearch.util.dto.Beginning;
+import org.example.fiveletters.solving.beginningsearch.util.service.BeginningFilteringService;
+import org.example.fiveletters.solving.beginningsearch.uniqueletters.service.BruteForceBeginningSearcher;
 import org.example.fiveletters.solving.common.dictionary.Dictionary;
 import org.example.fiveletters.solving.common.dictionary.plain.PlainDictionary;
-import org.example.fiveletters.solving.uniquebeginningsearch.service.LetterFrequencyBeginningSearcher;
-import org.example.fiveletters.solving.uniquebeginningsearch.service.SearchMaskFinder;
+import org.example.fiveletters.solving.beginningsearch.uniqueletters.service.LetterFrequencyBeginningSearcher;
+import org.example.fiveletters.solving.beginningsearch.uniqueletters.service.SearchMaskFinder;
 
 @Slf4j
-public class UniqueBeginningSearchApplication {
+public class UniqueLettersBeginningSearchApplication {
 
     public static void main(String[] args) throws IOException {
         Dictionary allWordsDictionary = AllWordsDictionary.read(
@@ -27,7 +28,6 @@ public class UniqueBeginningSearchApplication {
 
         int wordsCount = 4;
 
-        // Даже на словаре частотных слов в 2000 слов брут-форс будет отрабатывать около 16 дней
 //        List<Beginning> beginnings = findBestBeginningByBruteForce(allWordsDictionary, wordsCount);
         List<Beginning> beginnings = findBestBeginningsByLetterFrequency(allWordsDictionary, answersDictionary, wordsCount);
 
@@ -38,10 +38,19 @@ public class UniqueBeginningSearchApplication {
             return;
         }
 
-        BeginningFilteringService beginningFilteringService = new BeginningFilteringService(beginnings);
-        Beginning bestBeginning = beginningFilteringService.filterBeginnings(answersDictionary);
+        FilteringResult bestBeginning = new BeginningFilteringService(answersDictionary, beginnings).filterBeginnings();
 
-        log.info("Best beginning: {}", bestBeginning);
+        log.info(
+            """
+            Found best beginning:
+            words: {}
+            average remaining answers count: {}
+            max remaining answers count: {}
+            """,
+            bestBeginning.beginning().getWords(),
+            bestBeginning.averageRemainingAnswersCount(),
+            bestBeginning.maxRemainingAnswersCount()
+        );
     }
 
     private static List<Beginning> findBestBeginningByBruteForce(Dictionary allWordsDictionary, int wordsCount) {

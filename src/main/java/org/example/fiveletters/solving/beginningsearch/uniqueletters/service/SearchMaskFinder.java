@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.uniquebeginningsearch.service;
+package org.example.fiveletters.solving.beginningsearch.uniqueletters.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
