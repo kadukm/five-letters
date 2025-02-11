@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.beginningsearch.util.service;
+package org.example.fiveletters.solving.engine.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,36 +8,34 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
-import org.example.fiveletters.solving.beginningsearch.util.dto.FilteringResult;
-import org.example.fiveletters.solving.common.dictionary.Dictionary;
+import org.example.fiveletters.solving.engine.dto.Action;
+import org.example.fiveletters.solving.engine.dto.FilteringResult;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.engine.dto.State;
-import org.example.fiveletters.solving.engine.service.FiveLettersEngine;
-import org.example.fiveletters.solving.beginningsearch.util.dto.Beginning;
 
 @Slf4j
-public class BeginningFilteringService {
+public class ActionFilteringService {
 
-    private final Dictionary answersDictionary;
-    private final List<Beginning> beginnings;
+    private final List<Word> possibleAnswers;
+    private final List<Action> actions;
 
     private final State initialState;
     private final FiveLettersEngine engine;
 
     private final AtomicInteger progress = new AtomicInteger(0);
 
-    public BeginningFilteringService(Dictionary answersDictionary, List<Beginning> beginnings) {
-        this.answersDictionary = answersDictionary;
-        this.beginnings = beginnings;
+    public ActionFilteringService(List<Word> possibleAnswers, List<Action> actions) {
+        this.possibleAnswers = possibleAnswers;
+        this.actions = actions;
 
-        this.initialState = State.createInitialState(answersDictionary.getWords());
+        this.initialState = State.createInitialState(this.possibleAnswers);
         this.engine = new FiveLettersEngine();
     }
 
-    public FilteringResult filterBeginnings() {
-        logProgress(0, beginnings.size());
+    public FilteringResult filterActions() {
+        logProgress(0, actions.size());
 
-        List<CompletableFuture<InternalFilteringResult>> futures = beginnings.stream()
+        List<CompletableFuture<InternalFilteringResult>> futures = actions.stream()
             .map(b -> CompletableFuture.supplyAsync(() -> calculateRemainingAnswersSum(b)))
             .toList();
 
@@ -51,27 +49,27 @@ public class BeginningFilteringService {
                     throw new RuntimeException(e);
                 }
             })
-            .min(Comparator.comparingInt(InternalFilteringResult::remainingAnswersSum))
+            .min(createComparatorByRemainingAnswersSum())
             .orElseThrow();
 
         // Среднее арифметическое = (остаток_1 + ... + остаток_N) / N
         BigDecimal averageRemainingAnswersCount = BigDecimal
             .valueOf(bestBeginning.remainingAnswersSum())
             .setScale(2, RoundingMode.UNNECESSARY)
-            .divide(BigDecimal.valueOf(answersDictionary.getWords().size()), RoundingMode.CEILING);
+            .divide(BigDecimal.valueOf(possibleAnswers.size()), RoundingMode.CEILING);
 
         return new FilteringResult(
-            bestBeginning.beginning(),
+            bestBeginning.action(),
             averageRemainingAnswersCount,
             bestBeginning.maxRemainingAnswersCount()
         );
     }
 
-    private InternalFilteringResult calculateRemainingAnswersSum(Beginning beginning) {
+    private InternalFilteringResult calculateRemainingAnswersSum(Action beginning) {
         int remainingAnswersSum = 0;
         int maxRemainingAnswersCount = 0;
 
-        for (Word answer : answersDictionary.getWords()) {
+        for (Word answer : possibleAnswers) {
             State nextState = initialState;
 
             for (Word word : beginning.getWords()) {
@@ -83,7 +81,7 @@ public class BeginningFilteringService {
         }
 
         int currentProgress = progress.incrementAndGet();
-        logProgress(currentProgress, beginnings.size());
+        logProgress(currentProgress, actions.size());
 
         return new InternalFilteringResult(beginning, remainingAnswersSum, maxRemainingAnswersCount);
     }
@@ -95,12 +93,34 @@ public class BeginningFilteringService {
 
         String message = String.format("Processing progress: %.2f%% (%d/%d)",
                                        ((double) i) / allCount * 100, i, allCount);
-        log.info(message);
+        log.debug(message);
+    }
+
+    private Comparator<InternalFilteringResult> createComparatorByRemainingAnswersSum() {
+        return Comparator
+            .comparingInt(InternalFilteringResult::remainingAnswersSum)
+            .thenComparing(
+                (r1, r2) -> {
+                    boolean r1InAnswers = r1.action().getWords().stream()
+                        .anyMatch(possibleAnswers::contains);
+                    boolean r2InAnswers = r2.action().getWords().stream()
+                        .anyMatch(possibleAnswers::contains);
+
+                    if (r1InAnswers && !r2InAnswers) {
+                        return -1;
+                    }
+                    if (!r1InAnswers && r2InAnswers) {
+                        return 1;
+                    }
+
+                    return 0;
+                }
+            );
     }
 
     private record InternalFilteringResult(
-        Beginning beginning,
+        Action action,
         int remainingAnswersSum,
         int maxRemainingAnswersCount
-    ) {}
+    ) { }
 }

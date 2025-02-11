@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.example.fiveletters.solving.engine.dto.Action;
 import org.example.fiveletters.solving.common.domain.Word;
-import org.example.fiveletters.solving.beginningsearch.util.dto.Beginning;
 import org.example.fiveletters.solving.beginningsearch.uniqueletters.dto.UniqueLetterWord;
 
 @Slf4j
@@ -21,14 +21,15 @@ public class LetterFrequencyBeginningSearcher{
         this.uniqueLetterWords = uniqueLetterWords;
     }
 
-    public static List<Beginning> findBeginnings(List<Word> rawWords, int wordsCount, int searchMask) {
+    public static List<Action> findBeginnings(List<Word> rawWords, int wordsCount, int searchMask) {
         LetterFrequencyBeginningSearcher searcher = new LetterFrequencyBeginningSearcher(
-            wordsCount, filterWords(rawWords, searchMask));
+            wordsCount, filterWords(rawWords, searchMask)
+        );
 
-        List<Beginning> result = new ArrayList<>();
-        Set<Beginning> usedBeginnings = new HashSet<>();
+        List<Action> result = new ArrayList<>();
+        Set<Action> usedActions = new HashSet<>();
 
-        searcher.findBeginningsInternal(result, usedBeginnings, new Beginning());
+        searcher.findBeginningsInternal(result, usedActions, new Action());
 
         return result;
     }
@@ -48,26 +49,26 @@ public class LetterFrequencyBeginningSearcher{
     }
 
     private void findBeginningsInternal(
-        List<Beginning> result,
-        Set<Beginning> usedBeginnings,
-        Beginning currentBeginning
+        List<Action> result,
+        Set<Action> usedActions,
+        Action currentAction
     ) {
         for (UniqueLetterWord uniqueLetterWord : uniqueLetterWords) {
-            Beginning nextBeginning = currentBeginning.addWord(uniqueLetterWord.getWord());
-            if (usedBeginnings.contains(nextBeginning)) {
+            Action nextAction = currentAction.addWord(uniqueLetterWord.getWord());
+            if (usedActions.contains(nextAction)) {
                 continue;
             }
 
-            if (nextBeginning.getWordsCount() == wordCountToFind) {
-                result.add(nextBeginning);
+            if (nextAction.getWordsCount() == wordCountToFind) {
+                result.add(nextAction);
 
-                log.debug(String.join(" ", nextBeginning.getWords().stream().map(Word::toString).toList()));
+                log.debug(String.join(" ", nextAction.getWords().stream().map(Word::toString).toList()));
             } else {
                 LetterFrequencyBeginningSearcher nextSearcher = remove(uniqueLetterWord);
-                nextSearcher.findBeginningsInternal(result, usedBeginnings, nextBeginning);
+                nextSearcher.findBeginningsInternal(result, usedActions, nextAction);
             }
 
-            usedBeginnings.add(nextBeginning);
+            usedActions.add(nextAction);
         }
     }
 

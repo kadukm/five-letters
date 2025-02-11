@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.example.fiveletters.solving.engine.dto.Action;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.util.MaskUtils;
-import org.example.fiveletters.solving.beginningsearch.util.dto.Beginning;
 import org.example.fiveletters.solving.beginningsearch.uniqueletters.dto.UniqueLetterWord;
 
 @Slf4j
@@ -22,13 +22,13 @@ public class BruteForceBeginningSearcher {
         this.uniqueLetterWords = uniqueLetterWords;
     }
 
-    public static List<Beginning> findBeginnings(List<Word> rawWords, int wordsCount) {
+    public static List<Action> findBeginnings(List<Word> rawWords, int wordsCount) {
         BruteForceBeginningSearcher searcher = new BruteForceBeginningSearcher(wordsCount, filterWords(rawWords));
 
-        List<Beginning> result = new ArrayList<>();
+        List<Action> result = new ArrayList<>();
         Set<Integer> usedMasks = new HashSet<>();
 
-        searcher.findBeginningsInternal(result, usedMasks, 0, new Beginning());
+        searcher.findBeginningsInternal(result, usedMasks, 0, new Action());
 
         return result;
     }
@@ -42,10 +42,10 @@ public class BruteForceBeginningSearcher {
     }
 
     private void findBeginningsInternal(
-        List<Beginning> result,
+        List<Action> result,
         Set<Integer> usedMasks,
         int currentMask,
-        Beginning currentBeginning
+        Action currentAction
     ) {
         for (UniqueLetterWord uniqueLetterWord : uniqueLetterWords) {
             int nextMask = currentMask | uniqueLetterWord.getMask();
@@ -53,19 +53,19 @@ public class BruteForceBeginningSearcher {
                 continue;
             }
 
-            Beginning nextBeginning = currentBeginning.addWord(uniqueLetterWord.getWord());
+            Action nextAction = currentAction.addWord(uniqueLetterWord.getWord());
 
-            if (nextBeginning.getWordsCount() == wordCountToFind) {
-                result.add(nextBeginning);
+            if (nextAction.getWordsCount() == wordCountToFind) {
+                result.add(nextAction);
 
                 String message = "%s - %s".formatted(
-                    String.join(" ", nextBeginning.getWords().stream().map(Word::toString).toList()),
+                    String.join(" ", nextAction.getWords().stream().map(Word::toString).toList()),
                     MaskUtils.maskToString(nextMask)
                 );
                 log.info(message);
             } else {
                 BruteForceBeginningSearcher nextSearcher = remove(uniqueLetterWord);
-                nextSearcher.findBeginningsInternal(result, usedMasks, nextMask, nextBeginning);
+                nextSearcher.findBeginningsInternal(result, usedMasks, nextMask, nextAction);
             }
 
             usedMasks.add(nextMask);

@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
-import org.example.fiveletters.solving.beginningsearch.util.dto.FilteringResult;
+import org.example.fiveletters.solving.engine.dto.Action;
+import org.example.fiveletters.solving.engine.dto.FilteringResult;
 import org.example.fiveletters.solving.common.dictionary.Dictionary;
 import org.example.fiveletters.solving.common.dictionary.all.AllWordsDictionary;
 import org.example.fiveletters.solving.common.dictionary.all.WordSource;
 import org.example.fiveletters.solving.common.dictionary.plain.PlainDictionary;
-import org.example.fiveletters.solving.beginningsearch.util.dto.Beginning;
-import org.example.fiveletters.solving.beginningsearch.util.service.BeginningFilteringService;
+import org.example.fiveletters.solving.engine.service.ActionFilteringService;
 
 @Slf4j
 public class FirstWordBeginningSearchApplication {
@@ -22,11 +22,11 @@ public class FirstWordBeginningSearchApplication {
         );
         Dictionary answersDictionary = PlainDictionary.read("dictionaries/plain/tbank-answers-assumption.txt");
 
-        List<Beginning> beginnings = allWordsDictionary.getWords().stream()
-            .map(w -> new Beginning(Set.of(w)))
+        List<Action> beginnings = allWordsDictionary.getWords().stream()
+            .map(w -> new Action(Set.of(w)))
             .toList();
 
-        FilteringResult bestBeginning = new BeginningFilteringService(answersDictionary, beginnings).filterBeginnings();
+        FilteringResult filteringResult = new ActionFilteringService(answersDictionary.getWords(), beginnings).filterActions();
 
         log.info(
             """
@@ -35,9 +35,9 @@ public class FirstWordBeginningSearchApplication {
             average remaining answers count: {}
             max remaining answers count: {}
             """,
-            bestBeginning.beginning().getWords().stream().findFirst().orElseThrow(),
-            bestBeginning.averageRemainingAnswersCount(),
-            bestBeginning.maxRemainingAnswersCount()
+            filteringResult.action().getWords().stream().findFirst().orElseThrow(),
+            filteringResult.averageRemainingAnswersCount(),
+            filteringResult.maxRemainingAnswersCount()
         );
     }
 }

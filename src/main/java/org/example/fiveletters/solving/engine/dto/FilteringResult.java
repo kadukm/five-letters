@@ -1,9 +1,9 @@
-package org.example.fiveletters.solving.beginningsearch.util.dto;
+package org.example.fiveletters.solving.engine.dto;
 
 import java.math.BigDecimal;
 
 public record FilteringResult(
-    Beginning beginning,
+    Action action,
     BigDecimal averageRemainingAnswersCount,
     int maxRemainingAnswersCount
 ) {}

@@ -10,8 +10,12 @@ import org.example.fiveletters.solving.engine.dto.State;
 public class FiveLettersEngine {
 
     public State doNextStep(State state, Word word, Word answer) {
-        GuessResponse response = guess(answer, word);
-        GuessStats guessStats = parseResponse(response);
+        GuessResponse guessResponse = guess(answer, word);
+        return doNextStep(state, guessResponse);
+    }
+
+    public State doNextStep(State state, GuessResponse guessResponse) {
+        GuessStats guessStats = parseResponse(guessResponse);
         return state.applyGuess(guessStats);
     }
 
