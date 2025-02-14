@@ -1,11 +1,11 @@
-package org.example.fiveletters.solving.engine.service;
+package org.example.fiveletters.solving.common.engine.service;
 
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.util.LetterCounter;
-import org.example.fiveletters.solving.engine.dto.GuessResponse;
-import org.example.fiveletters.solving.engine.dto.GuessStats;
-import org.example.fiveletters.solving.engine.dto.LetterStatus;
-import org.example.fiveletters.solving.engine.dto.State;
+import org.example.fiveletters.solving.common.engine.dto.GuessResponse;
+import org.example.fiveletters.solving.common.engine.dto.GuessStats;
+import org.example.fiveletters.solving.common.engine.dto.LetterStatus;
+import org.example.fiveletters.solving.common.engine.dto.State;
 
 public class FiveLettersEngine {
 

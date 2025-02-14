@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.engine.dto;
+package org.example.fiveletters.solving.common.engine.dto;
 
 import java.util.EnumMap;
 import java.util.List;

@@ -4,12 +4,12 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.example.fiveletters.solving.common.dictionary.Dictionary;
 import org.example.fiveletters.solving.common.domain.Word;
-import org.example.fiveletters.solving.engine.dto.Action;
-import org.example.fiveletters.solving.engine.dto.GuessResponse;
-import org.example.fiveletters.solving.engine.dto.LetterStatus;
-import org.example.fiveletters.solving.engine.dto.State;
-import org.example.fiveletters.solving.engine.service.FiveLettersEngine;
-import org.example.fiveletters.solving.engine.service.OptimalNextWordSearcher;
+import org.example.fiveletters.solving.common.engine.dto.Action;
+import org.example.fiveletters.solving.common.engine.dto.GuessResponse;
+import org.example.fiveletters.solving.common.engine.dto.LetterStatus;
+import org.example.fiveletters.solving.common.engine.dto.State;
+import org.example.fiveletters.solving.common.engine.service.FiveLettersEngine;
+import org.example.fiveletters.solving.common.engine.service.OptimalNextWordSearcher;
 
 @Slf4j
 public class CliService {

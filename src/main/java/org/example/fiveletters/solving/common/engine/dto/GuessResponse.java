@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.engine.dto;
+package org.example.fiveletters.solving.common.engine.dto;
 
 import lombok.AllArgsConstructor;
 import org.example.fiveletters.solving.common.domain.Letter;

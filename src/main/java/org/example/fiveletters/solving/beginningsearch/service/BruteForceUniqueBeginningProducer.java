@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.example.fiveletters.solving.common.dictionary.Dictionary;
-import org.example.fiveletters.solving.engine.dto.Action;
+import org.example.fiveletters.solving.common.engine.dto.Action;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.util.MaskUtils;
 import org.example.fiveletters.solving.beginningsearch.dto.UniqueLetterWord;

@@ -9,9 +9,9 @@ import org.example.fiveletters.solving.common.dictionary.Dictionary;
 import org.example.fiveletters.solving.common.dictionary.all.AllWordsDictionary;
 import org.example.fiveletters.solving.common.dictionary.all.WordSource;
 import org.example.fiveletters.solving.common.dictionary.plain.PlainDictionary;
-import org.example.fiveletters.solving.engine.dto.Action;
-import org.example.fiveletters.solving.engine.dto.FilteringResult;
-import org.example.fiveletters.solving.engine.service.ActionFilteringService;
+import org.example.fiveletters.solving.common.engine.dto.Action;
+import org.example.fiveletters.solving.common.engine.dto.FilteringResult;
+import org.example.fiveletters.solving.common.engine.service.ActionFilteringService;
 
 @Slf4j
 public class BeginningSearchApplication {

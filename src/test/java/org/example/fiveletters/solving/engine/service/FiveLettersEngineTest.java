@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import org.example.fiveletters.solving.common.domain.Word;
-import org.example.fiveletters.solving.engine.dto.State;
+import org.example.fiveletters.solving.common.engine.dto.State;
+import org.example.fiveletters.solving.common.engine.service.FiveLettersEngine;
 import org.junit.jupiter.api.Test;
 
 public class FiveLettersEngineTest {

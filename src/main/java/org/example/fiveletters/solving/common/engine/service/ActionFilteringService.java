@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.engine.service;
+package org.example.fiveletters.solving.common.engine.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,10 +8,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
-import org.example.fiveletters.solving.engine.dto.Action;
-import org.example.fiveletters.solving.engine.dto.FilteringResult;
+import org.example.fiveletters.solving.common.engine.dto.Action;
+import org.example.fiveletters.solving.common.engine.dto.FilteringResult;
 import org.example.fiveletters.solving.common.domain.Word;
-import org.example.fiveletters.solving.engine.dto.State;
+import org.example.fiveletters.solving.common.engine.dto.State;
 
 @Slf4j
 public class ActionFilteringService {

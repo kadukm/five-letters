@@ -10,7 +10,7 @@ import org.example.fiveletters.solving.common.dictionary.all.AllWordsDictionary;
 import org.example.fiveletters.solving.common.dictionary.all.WordSource;
 import org.example.fiveletters.solving.common.dictionary.plain.PlainDictionary;
 import org.example.fiveletters.solving.common.domain.Word;
-import org.example.fiveletters.solving.engine.dto.Action;
+import org.example.fiveletters.solving.common.engine.dto.Action;
 
 public class FiveLettersCliApplication {
 
