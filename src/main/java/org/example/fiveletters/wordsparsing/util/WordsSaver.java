@@ -1,4 +1,4 @@
-package org.example.fiveletters.util;
+package org.example.fiveletters.wordsparsing.util;
 
 import java.io.File;
 import java.io.IOException;

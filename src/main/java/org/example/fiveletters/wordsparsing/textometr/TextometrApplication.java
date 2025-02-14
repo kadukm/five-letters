@@ -1,12 +1,12 @@
-package org.example.fiveletters.textometr;
+package org.example.fiveletters.wordsparsing.textometr;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.example.fiveletters.textometr.service.FrequencyWordSaver;
-import org.example.fiveletters.textometr.service.TextometrService;
+import org.example.fiveletters.wordsparsing.textometr.service.FrequencyWordSaver;
+import org.example.fiveletters.wordsparsing.textometr.service.TextometrService;
 
 @Slf4j
 public class TextometrApplication {

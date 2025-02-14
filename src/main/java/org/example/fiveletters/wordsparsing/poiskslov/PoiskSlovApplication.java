@@ -1,8 +1,8 @@
-package org.example.fiveletters.poiskslov;
+package org.example.fiveletters.wordsparsing.poiskslov;
 
-import org.example.fiveletters.poiskslov.service.Crawler;
-import org.example.fiveletters.poiskslov.service.Parser;
-import org.example.fiveletters.util.WordsSaver;
+import org.example.fiveletters.wordsparsing.poiskslov.service.Crawler;
+import org.example.fiveletters.wordsparsing.poiskslov.service.Parser;
+import org.example.fiveletters.wordsparsing.util.WordsSaver;
 
 public class PoiskSlovApplication {
 

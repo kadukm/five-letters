@@ -1,4 +1,4 @@
-package org.example.fiveletters.opencorpora.domain;
+package org.example.fiveletters.wordsparsing.opencorpora.domain;
 
 import java.util.List;
 import lombok.Getter;

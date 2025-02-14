@@ -1,4 +1,4 @@
-package org.example.fiveletters.textometr.dto;
+package org.example.fiveletters.wordsparsing.textometr.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

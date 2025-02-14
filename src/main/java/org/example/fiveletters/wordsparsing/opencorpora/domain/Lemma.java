@@ -1,4 +1,4 @@
-package org.example.fiveletters.opencorpora.domain;
+package org.example.fiveletters.wordsparsing.opencorpora.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -6,12 +6,12 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class LemmaForm {
+public class Lemma {
 
-    @JsonProperty("t")
-    private String word;
+    @JsonProperty("l")
+    private LemmaForm zeroForm;
 
-    @JsonProperty("g")
+    @JsonProperty("f")
     @JacksonXmlElementWrapper(useWrapping = false)
-    private List<Grammeme> grammemes;
+    private List<LemmaForm> forms;
 }

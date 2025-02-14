@@ -1,11 +1,11 @@
-package org.example.fiveletters.textometr.service;
+package org.example.fiveletters.wordsparsing.textometr.service;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.TreeSet;
-import org.example.fiveletters.textometr.domain.FrequencyWord;
+import org.example.fiveletters.wordsparsing.textometr.domain.FrequencyWord;
 
 public class FrequencyWordSaver {
 

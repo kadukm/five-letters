@@ -1,4 +1,4 @@
-package org.example.fiveletters.textometr.domain;
+package org.example.fiveletters.wordsparsing.textometr.domain;
 
 public record FrequencyWord(
     String word,

@@ -1,4 +1,4 @@
-package org.example.fiveletters.textometr.service;
+package org.example.fiveletters.wordsparsing.textometr.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,9 +11,9 @@ import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
-import org.example.fiveletters.textometr.domain.FrequencyWord;
-import org.example.fiveletters.textometr.dto.FrequencyRequest;
-import org.example.fiveletters.textometr.dto.FrequencyResponse;
+import org.example.fiveletters.wordsparsing.textometr.domain.FrequencyWord;
+import org.example.fiveletters.wordsparsing.textometr.dto.FrequencyRequest;
+import org.example.fiveletters.wordsparsing.textometr.dto.FrequencyResponse;
 
 @Slf4j
 public class TextometrService {

@@ -1,4 +1,4 @@
-package org.example.fiveletters.poiskslov.service;
+package org.example.fiveletters.wordsparsing.poiskslov.service;
 
 import java.io.IOException;
 import java.net.URI;

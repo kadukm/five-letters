@@ -1,4 +1,4 @@
-package org.example.fiveletters.opencorpora.util;
+package org.example.fiveletters.wordsparsing.opencorpora.util;
 
 public class GrammemeValues {
 

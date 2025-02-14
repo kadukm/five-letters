@@ -1,4 +1,4 @@
-package org.example.fiveletters.opencorpora.service;
+package org.example.fiveletters.wordsparsing.opencorpora.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -9,12 +9,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.example.fiveletters.opencorpora.domain.Dictionary;
-import org.example.fiveletters.opencorpora.domain.Grammeme;
-import org.example.fiveletters.opencorpora.domain.Lemma;
-import org.example.fiveletters.opencorpora.domain.LemmaForm;
-import org.example.fiveletters.opencorpora.util.GrammemeValues;
-import org.example.fiveletters.util.WordMatcher;
+import org.example.fiveletters.wordsparsing.opencorpora.domain.Dictionary;
+import org.example.fiveletters.wordsparsing.opencorpora.domain.Grammeme;
+import org.example.fiveletters.wordsparsing.opencorpora.domain.Lemma;
+import org.example.fiveletters.wordsparsing.opencorpora.domain.LemmaForm;
+import org.example.fiveletters.wordsparsing.opencorpora.util.GrammemeValues;
+import org.example.fiveletters.wordsparsing.util.WordMatcher;
 
 @Slf4j
 public class Parser {

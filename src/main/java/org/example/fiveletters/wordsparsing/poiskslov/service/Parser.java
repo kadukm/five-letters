@@ -1,9 +1,9 @@
-package org.example.fiveletters.poiskslov.service;
+package org.example.fiveletters.wordsparsing.poiskslov.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.example.fiveletters.util.WordMatcher;
+import org.example.fiveletters.wordsparsing.util.WordMatcher;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

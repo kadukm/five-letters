@@ -1,9 +1,9 @@
-package org.example.fiveletters.opencorpora;
+package org.example.fiveletters.wordsparsing.opencorpora;
 
 import java.io.IOException;
 import java.util.Set;
-import org.example.fiveletters.opencorpora.service.Parser;
-import org.example.fiveletters.util.WordsSaver;
+import org.example.fiveletters.wordsparsing.opencorpora.service.Parser;
+import org.example.fiveletters.wordsparsing.util.WordsSaver;
 
 public class OpenCorporaApplication {
 

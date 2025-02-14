@@ -22,8 +22,8 @@ public class FiveLettersCliApplication {
         Dictionary answersDictionary = PlainDictionary.read("dictionaries/plain/tbank-answers-assumption.txt");
 
 //        Action beginning = createCustomBeginning();
-        Action beginning = createCustomBeginning("норка");
-//        Action beginning = createCustomBeginning("сплин", "курва", "метод");
+//        Action beginning = createCustomBeginning("норка");
+        Action beginning = createCustomBeginning("сплин", "курва", "метод");
 //        Action beginning = createCustomBeginning("гниль", "пушка", "сброд", "взмет");
 
         new CliService(allWordsDictionary, answersDictionary).run(beginning);
