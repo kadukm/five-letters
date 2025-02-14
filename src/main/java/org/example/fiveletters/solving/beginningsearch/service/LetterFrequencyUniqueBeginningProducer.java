@@ -1,35 +1,48 @@
-package org.example.fiveletters.solving.beginningsearch.uniqueletters.service;
+package org.example.fiveletters.solving.beginningsearch.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.example.fiveletters.solving.common.dictionary.Dictionary;
 import org.example.fiveletters.solving.engine.dto.Action;
 import org.example.fiveletters.solving.common.domain.Word;
-import org.example.fiveletters.solving.beginningsearch.uniqueletters.dto.UniqueLetterWord;
+import org.example.fiveletters.solving.beginningsearch.dto.UniqueLetterWord;
 
 @Slf4j
-public class LetterFrequencyBeginningSearcher{
+public class LetterFrequencyUniqueBeginningProducer {
 
-    protected final int wordCountToFind;
-    protected final List<UniqueLetterWord> uniqueLetterWords;
+    private final int wordCountToFind;
+    private final List<UniqueLetterWord> uniqueLetterWords;
 
-    protected LetterFrequencyBeginningSearcher(int wordCountToFind, List<UniqueLetterWord> uniqueLetterWords) {
+    protected LetterFrequencyUniqueBeginningProducer(int wordCountToFind, List<UniqueLetterWord> uniqueLetterWords) {
         this.wordCountToFind = wordCountToFind;
         this.uniqueLetterWords = uniqueLetterWords;
     }
 
-    public static List<Action> findBeginnings(List<Word> rawWords, int wordsCount, int searchMask) {
-        LetterFrequencyBeginningSearcher searcher = new LetterFrequencyBeginningSearcher(
-            wordsCount, filterWords(rawWords, searchMask)
+    public static List<Action> produce(Dictionary allWordsDictionary, Dictionary answersDictionary, int wordsCount) {
+        List<Integer> searchMasks = new SearchMaskFinder().findBestSearchMasks(answersDictionary, wordsCount);
+
+        return searchMasks.stream()
+            .map(searchMask -> LetterFrequencyUniqueBeginningProducer
+                .produce(allWordsDictionary, wordsCount, searchMask)
+            )
+            .flatMap(Collection::stream)
+            .toList();
+    }
+
+    private static List<Action> produce(Dictionary dictionary, int wordsCount, int searchMask) {
+        LetterFrequencyUniqueBeginningProducer searcher = new LetterFrequencyUniqueBeginningProducer(
+            wordsCount, filterWords(dictionary.getWords(), searchMask)
         );
 
         List<Action> result = new ArrayList<>();
         Set<Action> usedActions = new HashSet<>();
 
-        searcher.findBeginningsInternal(result, usedActions, new Action());
+        searcher.produceInternal(result, usedActions, new Action());
 
         return result;
     }
@@ -48,7 +61,7 @@ public class LetterFrequencyBeginningSearcher{
         return conjunctionWithSearchMask == word.getMask();
     }
 
-    private void findBeginningsInternal(
+    private void produceInternal(
         List<Action> result,
         Set<Action> usedActions,
         Action currentAction
@@ -64,16 +77,16 @@ public class LetterFrequencyBeginningSearcher{
 
                 log.debug(String.join(" ", nextAction.getWords().stream().map(Word::toString).toList()));
             } else {
-                LetterFrequencyBeginningSearcher nextSearcher = remove(uniqueLetterWord);
-                nextSearcher.findBeginningsInternal(result, usedActions, nextAction);
+                LetterFrequencyUniqueBeginningProducer nextSearcher = remove(uniqueLetterWord);
+                nextSearcher.produceInternal(result, usedActions, nextAction);
             }
 
             usedActions.add(nextAction);
         }
     }
 
-    private LetterFrequencyBeginningSearcher remove(UniqueLetterWord wordToRemove) {
-        return new LetterFrequencyBeginningSearcher(wordCountToFind, filterUniqueLetterWords(wordToRemove));
+    private LetterFrequencyUniqueBeginningProducer remove(UniqueLetterWord wordToRemove) {
+        return new LetterFrequencyUniqueBeginningProducer(wordCountToFind, filterUniqueLetterWords(wordToRemove));
     }
 
     private List<UniqueLetterWord> filterUniqueLetterWords(UniqueLetterWord wordToRemove) {

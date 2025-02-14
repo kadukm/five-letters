@@ -1,4 +1,4 @@
-package org.example.fiveletters.solving.beginningsearch.uniqueletters.service;
+package org.example.fiveletters.solving.beginningsearch.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,24 +6,26 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.example.fiveletters.solving.common.dictionary.Dictionary;
 import org.example.fiveletters.solving.engine.dto.Action;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.util.MaskUtils;
-import org.example.fiveletters.solving.beginningsearch.uniqueletters.dto.UniqueLetterWord;
+import org.example.fiveletters.solving.beginningsearch.dto.UniqueLetterWord;
 
 @Slf4j
-public class BruteForceBeginningSearcher {
+public class BruteForceUniqueBeginningProducer {
 
     protected final int wordCountToFind;
     protected final List<UniqueLetterWord> uniqueLetterWords;
 
-    protected BruteForceBeginningSearcher(int wordCountToFind, List<UniqueLetterWord> uniqueLetterWords) {
+    protected BruteForceUniqueBeginningProducer(int wordCountToFind, List<UniqueLetterWord> uniqueLetterWords) {
         this.wordCountToFind = wordCountToFind;
         this.uniqueLetterWords = uniqueLetterWords;
     }
 
-    public static List<Action> findBeginnings(List<Word> rawWords, int wordsCount) {
-        BruteForceBeginningSearcher searcher = new BruteForceBeginningSearcher(wordsCount, filterWords(rawWords));
+    public static List<Action> produce(Dictionary dictionary, int wordsCount) {
+        BruteForceUniqueBeginningProducer searcher = new BruteForceUniqueBeginningProducer(
+            wordsCount, filterWords(dictionary.getWords()));
 
         List<Action> result = new ArrayList<>();
         Set<Integer> usedMasks = new HashSet<>();
@@ -64,7 +66,7 @@ public class BruteForceBeginningSearcher {
                 );
                 log.info(message);
             } else {
-                BruteForceBeginningSearcher nextSearcher = remove(uniqueLetterWord);
+                BruteForceUniqueBeginningProducer nextSearcher = remove(uniqueLetterWord);
                 nextSearcher.findBeginningsInternal(result, usedMasks, nextMask, nextAction);
             }
 
@@ -72,8 +74,8 @@ public class BruteForceBeginningSearcher {
         }
     }
 
-    private BruteForceBeginningSearcher remove(UniqueLetterWord wordToRemove) {
-        return new BruteForceBeginningSearcher(wordCountToFind, filterUniqueLetterWords(wordToRemove));
+    private BruteForceUniqueBeginningProducer remove(UniqueLetterWord wordToRemove) {
+        return new BruteForceUniqueBeginningProducer(wordCountToFind, filterUniqueLetterWords(wordToRemove));
     }
 
     private List<UniqueLetterWord> filterUniqueLetterWords(UniqueLetterWord wordToRemove) {
