@@ -35,7 +35,7 @@ public class BruteForceUniqueBeginningProducer {
         return result;
     }
 
-    private static List<UniqueLetterWord> filterWords(List<Word> rawWords) {
+    private static List<UniqueLetterWord> filterWords(Set<Word> rawWords) {
         return rawWords.stream()
             .map(UniqueLetterWord::tryParse)
             .filter(Optional::isPresent)
@@ -64,7 +64,7 @@ public class BruteForceUniqueBeginningProducer {
                     String.join(" ", nextAction.getWords().stream().map(Word::toString).toList()),
                     MaskUtils.maskToString(nextMask)
                 );
-                log.info(message);
+                log.debug(message);
             } else {
                 BruteForceUniqueBeginningProducer nextSearcher = remove(uniqueLetterWord);
                 nextSearcher.findBeginningsInternal(result, usedMasks, nextMask, nextAction);

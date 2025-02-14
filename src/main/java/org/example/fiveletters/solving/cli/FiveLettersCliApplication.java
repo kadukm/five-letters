@@ -11,6 +11,7 @@ import org.example.fiveletters.solving.common.dictionary.all.WordSource;
 import org.example.fiveletters.solving.common.dictionary.plain.PlainDictionary;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.engine.dto.Action;
+import org.example.fiveletters.solving.common.util.DictionariesChecker;
 
 public class FiveLettersCliApplication {
 
@@ -20,6 +21,8 @@ public class FiveLettersCliApplication {
             Set.of(WordSource.OPEN_CORPORA, WordSource.HAND_INPUT)
         );
         Dictionary answersDictionary = PlainDictionary.read("dictionaries/plain/tbank-answers-assumption.txt");
+
+        DictionariesChecker.check(allWordsDictionary, answersDictionary);
 
 //        Action beginning = createCustomBeginning();
 //        Action beginning = createCustomBeginning("норка");

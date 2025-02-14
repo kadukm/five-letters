@@ -2,7 +2,7 @@ package org.example.fiveletters.solving.engine.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
+import java.util.Set;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.engine.dto.State;
 import org.example.fiveletters.solving.common.engine.service.FiveLettersEngine;
@@ -14,7 +14,7 @@ public class FiveLettersEngineTest {
     void happyPath() {
         Word guess = new Word("абвер");
         Word answer = new Word("абака");
-        State state = State.createInitialState(List.of(guess, answer));
+        State state = State.createInitialState(Set.of(guess, answer));
 
         State nextState = new FiveLettersEngine().doNextStep(state, guess, answer);
 
@@ -40,7 +40,7 @@ public class FiveLettersEngineTest {
         Word guess = new Word("абвер");
         Word answer = new Word("абака");
 
-        State state = State.createInitialState(List.of(guess, answer));
+        State state = State.createInitialState(Set.of(guess, answer));
         FiveLettersEngine engine = new FiveLettersEngine();
 
         State nextState = engine.doNextStep(state, guess, answer);

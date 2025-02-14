@@ -47,7 +47,7 @@ public class LetterFrequencyUniqueBeginningProducer {
         return result;
     }
 
-    private static List<UniqueLetterWord> filterWords(List<Word> rawWords, int searchMask) {
+    private static List<UniqueLetterWord> filterWords(Set<Word> rawWords, int searchMask) {
         return rawWords.stream()
             .map(UniqueLetterWord::tryParse)
             .filter(Optional::isPresent)

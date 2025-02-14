@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
+import org.example.fiveletters.solving.beginningsearch.service.BruteForceUniqueBeginningProducer;
 import org.example.fiveletters.solving.beginningsearch.service.FirstWordBeginningProducer;
+import org.example.fiveletters.solving.beginningsearch.service.LetterFrequencyUniqueBeginningProducer;
 import org.example.fiveletters.solving.common.dictionary.Dictionary;
 import org.example.fiveletters.solving.common.dictionary.all.AllWordsDictionary;
 import org.example.fiveletters.solving.common.dictionary.all.WordSource;
@@ -12,6 +14,7 @@ import org.example.fiveletters.solving.common.dictionary.plain.PlainDictionary;
 import org.example.fiveletters.solving.common.engine.dto.Action;
 import org.example.fiveletters.solving.common.engine.dto.FilteringResult;
 import org.example.fiveletters.solving.common.engine.service.ActionFilteringService;
+import org.example.fiveletters.solving.common.util.DictionariesChecker;
 
 @Slf4j
 public class BeginningSearchApplication {
@@ -22,6 +25,8 @@ public class BeginningSearchApplication {
             Set.of(WordSource.OPEN_CORPORA, WordSource.HAND_INPUT)
         );
         Dictionary answersDictionary = PlainDictionary.read("dictionaries/plain/tbank-answers-assumption.txt");
+
+        DictionariesChecker.check(allWordsDictionary, answersDictionary);
 
         List<Action> beginnings = FirstWordBeginningProducer.produce(allWordsDictionary);
 //        List<Action> beginnings = BruteForceUniqueBeginningProducer.produce(allWordsDictionary, 4);

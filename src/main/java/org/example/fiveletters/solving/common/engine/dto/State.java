@@ -1,8 +1,9 @@
 package org.example.fiveletters.solving.common.engine.dto;
 
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import org.example.fiveletters.solving.common.domain.Letter;
 import org.example.fiveletters.solving.common.domain.Word;
@@ -23,9 +24,9 @@ public class State {
     private final EnumMap<Letter, Integer> letterMaxPossibleCount;
 
     @Getter
-    private List<Word> possibleAnswers;
+    private Set<Word> possibleAnswers;
 
-    private State(List<Word> possibleAnswers) {
+    private State(Set<Word> possibleAnswers) {
         this.step = 0;
 
         this.letter0mask = MaskUtils.ALL_LETTERS_MASK;
@@ -55,7 +56,7 @@ public class State {
         this.possibleAnswers = s.possibleAnswers;
     }
 
-    public static State createInitialState(List<Word> possibleAnswers) {
+    public static State createInitialState(Set<Word> possibleAnswers) {
         return new State(possibleAnswers);
     }
 
@@ -156,7 +157,7 @@ public class State {
     private void filterPossibleAnswers() {
         possibleAnswers = possibleAnswers.stream()
             .filter(this::applicableToWord)
-            .toList();
+            .collect(Collectors.toSet());
     }
 
     private boolean applicableToWord(Word word) {

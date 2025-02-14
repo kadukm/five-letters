@@ -32,11 +32,11 @@ public class CliService {
     }
 
     public void run(Action beginning) {
-        boolean answerFound = applyBeginning(beginning);
+        boolean gameEnded = applyBeginning(beginning);
 
-        while (!answerFound) {
+        while (!gameEnded) {
             Word word = getNextWord();
-            answerFound = applyWord(word);
+            gameEnded = applyWord(word);
         }
     }
 
@@ -60,7 +60,7 @@ public class CliService {
         state = engine.doNextStep(state, guessResponse);
 
         if (state.isAnswerFound() && state.getPossibleAnswers().contains(word)) {
-            log.info("Answer is \"{}\", found in {} steps", state.getPossibleAnswers().getFirst(), state.getStep());
+            log.info("Answer is \"{}\", found in {} steps", word, state.getStep());
             return true;
         }
 

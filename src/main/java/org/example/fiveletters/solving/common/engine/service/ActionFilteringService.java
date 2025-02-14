@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,7 +17,7 @@ import org.example.fiveletters.solving.common.engine.dto.State;
 @Slf4j
 public class ActionFilteringService {
 
-    private final List<Word> possibleAnswers;
+    private final Set<Word> possibleAnswers;
     private final List<Action> actions;
 
     private final State initialState;
@@ -24,7 +25,7 @@ public class ActionFilteringService {
 
     private final AtomicInteger progress = new AtomicInteger(0);
 
-    public ActionFilteringService(List<Word> possibleAnswers, List<Action> actions) {
+    public ActionFilteringService(Set<Word> possibleAnswers, List<Action> actions) {
         this.possibleAnswers = possibleAnswers;
         this.actions = actions;
 

@@ -8,7 +8,7 @@ import org.example.fiveletters.solving.common.domain.Word;
 
 public class OptimalNextWordSearcher {
 
-    public Word findNextWord(List<Word> words, List<Word> possibleAnswers) {
+    public Word findNextWord(Set<Word> words, Set<Word> possibleAnswers) {
         List<Action> actions = words.stream()
             .map(w -> new Action(Set.of(w)))
             .toList();
