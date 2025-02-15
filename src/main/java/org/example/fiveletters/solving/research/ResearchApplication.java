@@ -21,10 +21,7 @@ import org.example.fiveletters.solving.research.service.StatsCalculator;
 public class ResearchApplication {
 
     public static void main(String[] args) throws IOException {
-        Dictionary allWordsDictionary = AllWordsDictionary.read(
-            "dictionaries/all-words.csv",
-            Set.of(WordSource.OPEN_CORPORA, WordSource.HAND_INPUT)
-        );
+        Dictionary allWordsDictionary = AllWordsDictionary.read("dictionaries/all-words.csv", WordSource.OPEN_CORPORA);
         Dictionary answersDictionary = PlainDictionary.read("dictionaries/plain/tbank-answers-assumption.txt");
 
         DictionariesChecker.check(allWordsDictionary, answersDictionary);
