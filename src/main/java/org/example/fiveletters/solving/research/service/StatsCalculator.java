@@ -67,33 +67,17 @@ public class StatsCalculator {
             })
             .toList();
 
-        // Сохранено, чтобы было проще дебажить
-//        List<GameStats> gamesStats = answersDictionary.getWords().stream()
-//            .map(answer -> new StatsCalculator(allWordsDictionary, answersDictionary, answer, progress))
-//            .map(c -> c.runGame(beginning))
-//            .toList();
-
-        return collectSummary(gamesStats);
+        return collectSummary(beginning, gamesStats);
     }
 
-    private static void logProgress(int i, int allCount) {
-        if (i % 50 != 0 && i != allCount) {
-            return;
-        }
-
-        String message = String.format("Calculating progress: %.2f%% (%d/%d)",
-                                       ((double) i) / allCount * 100, i, allCount);
-        log.debug(message);
-    }
-
-    private static SummaryStats collectSummary(List<GameStats> gamesStats) {
+    private static SummaryStats collectSummary(Action beginning, List<GameStats> gamesStats) {
         BigDecimal averageStepsSpentCount = BigDecimal
             .valueOf(
                 gamesStats.stream()
                     .map(GameStats::stepsSpentCount)
                     .reduce(0, Integer::sum)
             )
-            .setScale(2, RoundingMode.UNNECESSARY)
+            .setScale(4, RoundingMode.UNNECESSARY)
             .divide(BigDecimal.valueOf(gamesStats.size()), RoundingMode.CEILING);
 
         long lostGamesCount = gamesStats.stream()
@@ -110,7 +94,7 @@ public class StatsCalculator {
                 )
             );
 
-        return new SummaryStats(averageStepsSpentCount, (int) lostGamesCount, stepsStats);
+        return new SummaryStats(beginning, averageStepsSpentCount, (int) lostGamesCount, stepsStats);
     }
 
     private GameStats runGame(Action beginning) {
@@ -142,5 +126,15 @@ public class StatsCalculator {
         if (state.isAnswerFound() && state.getPossibleAnswers().contains(word)) {
             inProgress = false;
         }
+    }
+
+    private static void logProgress(int i, int allCount) {
+        if (i % 50 != 0 && i != allCount) {
+            return;
+        }
+
+        String message = String.format("Calculating progress: %.2f%% (%d/%d)",
+                                       ((double) i) / allCount * 100, i, allCount);
+        log.info(message);
     }
 }

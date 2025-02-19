@@ -1,5 +1,6 @@
 package org.example.fiveletters.solving.common.util;
 
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -42,6 +43,10 @@ public class LetterCounter {
 
     public Set<Letter> keySet() {
         return map.keySet();
+    }
+
+    public Collection<Integer> values() {
+        return map.values();
     }
 
     public Set<Entry<Letter, Integer>> entrySet() {

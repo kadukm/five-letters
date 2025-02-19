@@ -5,6 +5,8 @@ import java.util.Set;
 import org.example.fiveletters.solving.common.engine.dto.Action;
 import org.example.fiveletters.solving.common.engine.dto.FilteringResult;
 import org.example.fiveletters.solving.common.domain.Word;
+import org.example.fiveletters.solving.common.engine.service.filtering.OneActionFilteringService;
+import org.slf4j.event.Level;
 
 public class OptimalNextWordSearcher {
 
@@ -13,7 +15,8 @@ public class OptimalNextWordSearcher {
             .map(w -> new Action(Set.of(w)))
             .toList();
 
-        FilteringResult filteringResult = new ActionFilteringService(possibleAnswers, actions).filterActions();
+        FilteringResult filteringResult =
+            new OneActionFilteringService(possibleAnswers, actions, Level.DEBUG).filterActions();
 
         return filteringResult.action().getWords().stream().findFirst().orElseThrow();
     }

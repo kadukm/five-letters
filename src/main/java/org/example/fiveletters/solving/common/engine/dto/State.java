@@ -13,6 +13,8 @@ public class State {
 
     @Getter
     private final int step;
+    @Getter
+    private Set<Word> possibleAnswers;
 
     private int letter0mask;
     private int letter1mask;
@@ -23,11 +25,9 @@ public class State {
     private final EnumMap<Letter, Integer> letterMinPossibleCount;
     private final EnumMap<Letter, Integer> letterMaxPossibleCount;
 
-    @Getter
-    private Set<Word> possibleAnswers;
-
     private State(Set<Word> possibleAnswers) {
         this.step = 0;
+        this.possibleAnswers = possibleAnswers;
 
         this.letter0mask = MaskUtils.ALL_LETTERS_MASK;
         this.letter1mask = MaskUtils.ALL_LETTERS_MASK;
@@ -37,12 +37,11 @@ public class State {
 
         this.letterMinPossibleCount = new EnumMap<>(Letter.class);
         this.letterMaxPossibleCount = new EnumMap<>(Letter.class);
-
-        this.possibleAnswers = possibleAnswers;
     }
 
     private State(State s) {
         this.step = s.step + 1;
+        this.possibleAnswers = s.possibleAnswers;
 
         this.letter0mask = s.letter0mask;
         this.letter1mask = s.letter1mask;
@@ -52,8 +51,6 @@ public class State {
 
         this.letterMinPossibleCount = s.letterMinPossibleCount.clone();
         this.letterMaxPossibleCount = s.letterMaxPossibleCount.clone();
-
-        this.possibleAnswers = s.possibleAnswers;
     }
 
     public static State createInitialState(Set<Word> possibleAnswers) {
@@ -207,9 +204,21 @@ public class State {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+
+        appendHeader(sb);
+        appendLetterMasks(sb);
+        appendMaxPossibleCounts(sb);
+        appendMinPossibleCounts(sb);
+
+        return sb.toString();
+    }
+
+    private void appendHeader(StringBuilder sb) {
         sb.append("                   | а б в г д е ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я |\n");
         sb.append("                    -----------------------------------------------------------------\n");
+    }
 
+    private void appendLetterMasks(StringBuilder sb) {
         for (int i = 0; i < 5; i++) {
             sb.append("                 ").append(i).append(" | ");
 
@@ -222,43 +231,33 @@ public class State {
                 default -> throw new IllegalStateException("Unexpected value: " + i);
             };
             for (Letter l : Letter.values()) {
-
-                if (l.mask == (stateLetterMask & l.mask)) {
-                    sb.append(' ');
-                } else {
-                    sb.append('X');
-                }
-                sb.append(' ');
+                boolean letterPresentInStateLetterMask = l.mask == (stateLetterMask & l.mask);
+                sb.append(letterPresentInStateLetterMask ? ' ' : 'X')
+                    .append(' ');
             }
             sb.append("|\n");
         }
 
         sb.append("                    -----------------------------------------------------------------\n");
+    }
 
+    private void appendMaxPossibleCounts(StringBuilder sb) {
         sb.append("max possible count | ");
         for (Letter l : Letter.values()) {
             Integer value = letterMaxPossibleCount.get(l);
-            if (value == null) {
-                sb.append(' ');
-            } else {
-                sb.append(value);
-            }
-            sb.append(' ');
+            sb.append(value == null ? " " : String.valueOf(value))
+                .append(' ');
         }
         sb.append("|\n");
+    }
 
+    private void appendMinPossibleCounts(StringBuilder sb) {
         sb.append("min possible count | ");
         for (Letter l : Letter.values()) {
             Integer value = letterMinPossibleCount.get(l);
-            if (value == null) {
-                sb.append(' ');
-            } else {
-                sb.append(value);
-            }
-            sb.append(' ');
+            sb.append(value == null ? " " : String.valueOf(value))
+                .append(' ');
         }
         sb.append("|\n");
-
-        return sb.toString();
     }
 }

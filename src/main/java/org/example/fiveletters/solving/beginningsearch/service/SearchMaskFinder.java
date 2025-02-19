@@ -35,11 +35,16 @@ public class SearchMaskFinder {
             .flatMap(Stream::of)
             .forEach(counter::increase);
 
+        int lettersSum = counter.values().stream()
+            .reduce(0, Integer::sum);
+
         ArrayList<Entry<Letter, Integer>> letterFrequency = new ArrayList<>(counter.entrySet());
         letterFrequency.sort(Collections.reverseOrder(Entry.comparingByValue()));
 
         String frequenciesMessage = letterFrequency.stream()
-            .map(e -> "%s - %d".formatted(e.getKey(), e.getValue()))
+            .map(e -> "%s - %d - %.2f%%".formatted(
+                e.getKey(), e.getValue(), (double) e.getValue() * 100 / lettersSum)
+            )
             .collect(Collectors.joining("\n"));
         log.info("Collected frequencies:\n{}", frequenciesMessage);
 

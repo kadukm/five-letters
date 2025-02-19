@@ -14,6 +14,8 @@ import org.example.fiveletters.solving.common.engine.service.OptimalNextWordSear
 @Slf4j
 public class CliService {
 
+    private static final int STATE_REPRESENTATION_WORDS_COUNT = 20;
+
     private final Dictionary allWordsDictionary;
     private final Dictionary answersDictionary;
 
@@ -121,13 +123,13 @@ public class CliService {
             .append(" [");
 
         String fewAnswers = state.getPossibleAnswers().stream()
-            .limit(10)
+            .limit(STATE_REPRESENTATION_WORDS_COUNT)
             .map(Word::getValue)
             .collect(Collectors.joining(", "));
 
         sb.append(fewAnswers);
 
-        if (state.getPossibleAnswers().size() > 10) {
+        if (state.getPossibleAnswers().size() > STATE_REPRESENTATION_WORDS_COUNT) {
             sb.append(", ...");
         }
 

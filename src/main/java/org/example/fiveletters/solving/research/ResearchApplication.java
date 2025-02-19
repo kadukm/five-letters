@@ -26,10 +26,10 @@ public class ResearchApplication {
 
         DictionariesChecker.check(allWordsDictionary, answersDictionary);
 
-//        Action beginning = createCustomBeginning("норка");
-        Action beginning = createCustomBeginning("серна", "колит");
-//        Action beginning = createCustomBeginning("сплин", "курва", "метод");
-//        Action beginning = createCustomBeginning("гниль", "пушка", "сброд", "взмет");
+        Action beginning = createCustomBeginning("норка");
+//        Action beginning = createCustomBeginning("серна", "колит");
+//        Action beginning = createCustomBeginning("сплин", "метод", "курва");
+//        Action beginning = createCustomBeginning("гниль", "сброд", "пушка", "взмет");
 //        Action beginning = createCustomBeginning("кольт", "бридж", "взмах", "пешня", "сычуг");
 //        Action beginning = createCustomBeginning("шприц", "чувяк", "лохмы", "съезд", "фьюжн", "гбайт");
 
@@ -38,10 +38,12 @@ public class ResearchApplication {
         log.info(
             """
             Research statistics:
+            beginning: {}
             steps stats: {}
             average steps spent: {}
             lost games count: {}
             """,
+            beginning.getWords(),
             formatStepsStatsString(summary.stepsCountStats()),
             summary.averageStepsSpentCount(),
             summary.lostGamesCount()

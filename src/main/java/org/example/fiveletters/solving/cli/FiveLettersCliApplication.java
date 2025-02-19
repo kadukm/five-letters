@@ -21,9 +21,9 @@ public class FiveLettersCliApplication {
 
         DictionariesChecker.check(allWordsDictionary, answersDictionary);
 
-//        Action beginning = createCustomBeginning();
+        Action beginning = createCustomBeginning();
 //        Action beginning = createCustomBeginning("норка");
-        Action beginning = createCustomBeginning("сплин", "курва", "метод");
+//        Action beginning = createCustomBeginning("сплин", "курва", "метод");
 //        Action beginning = createCustomBeginning("гниль", "пушка", "сброд", "взмет");
 
         new CliService(allWordsDictionary, answersDictionary).run(beginning);
