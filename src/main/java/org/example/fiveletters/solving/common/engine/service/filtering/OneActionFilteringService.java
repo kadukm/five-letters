@@ -9,13 +9,14 @@ import org.slf4j.event.Level;
 
 public class OneActionFilteringService extends AbstractActionFilteringService {
 
-    public OneActionFilteringService(Set<Word> possibleAnswers, List<Action> actions, Level logLevel) {
-        super(possibleAnswers, actions, logLevel);
+    public OneActionFilteringService(Set<Word> possibleAnswers, List<Action> actions,
+                                     Level logLevel, FilteringStrategy filteringStrategy) {
+        super(possibleAnswers, actions, logLevel, filteringStrategy);
     }
 
     public FilteringResult filterActions() {
         return handleActions()
-            .min(createComparatorByRemainingAnswersSum())
+            .min(createComparator())
             .map(this::mapInternalFilteringResult)
             .orElseThrow();
     }

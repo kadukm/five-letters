@@ -24,17 +24,20 @@ public abstract class AbstractActionFilteringService {
     protected final List<Action> actions;
 
     protected final Level logLevel;
+    protected final FilteringStrategy filteringStrategy;
 
     protected final State initialState;
     protected final FiveLettersEngine engine;
 
     protected final AtomicInteger progress = new AtomicInteger(0);
 
-    protected AbstractActionFilteringService(Set<Word> possibleAnswers, List<Action> actions, Level logLevel) {
+    protected AbstractActionFilteringService(Set<Word> possibleAnswers, List<Action> actions,
+                                             Level logLevel, FilteringStrategy filteringStrategy) {
         this.possibleAnswers = possibleAnswers;
         this.actions = actions;
 
         this.logLevel = logLevel;
+        this.filteringStrategy = filteringStrategy;
 
         this.initialState = State.createInitialState(this.possibleAnswers);
         this.engine = new FiveLettersEngine();
@@ -108,11 +111,17 @@ public abstract class AbstractActionFilteringService {
             .divide(BigDecimal.valueOf(possibleAnswers.size()), RoundingMode.CEILING);
     }
 
-    protected Comparator<InternalFilteringResult> createComparatorByRemainingAnswersSum() {
-        return Comparator
-            .comparingInt(InternalFilteringResult::remainingAnswersSum)
-            .thenComparing(createComparatorByAnswerInAction())
-            .thenComparingInt(InternalFilteringResult::maxRemainingAnswersCount);
+    protected Comparator<InternalFilteringResult> createComparator() {
+        return switch (filteringStrategy) {
+            case AVERAGE -> Comparator
+                .comparingInt(InternalFilteringResult::remainingAnswersSum)
+                .thenComparing(createComparatorByAnswerInAction())
+                .thenComparingInt(InternalFilteringResult::maxRemainingAnswersCount);
+            case MAX -> Comparator
+                .comparingInt(InternalFilteringResult::maxRemainingAnswersCount)
+                .thenComparing(createComparatorByAnswerInAction())
+                .thenComparingInt(InternalFilteringResult::remainingAnswersSum);
+        };
     }
 
     private Comparator<InternalFilteringResult> createComparatorByAnswerInAction() {

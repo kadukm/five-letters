@@ -17,6 +17,7 @@ import org.example.fiveletters.solving.common.dictionary.plain.PlainDictionary;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.engine.dto.Action;
 import org.example.fiveletters.solving.common.engine.dto.FilteringResult;
+import org.example.fiveletters.solving.common.engine.service.filtering.FilteringStrategy;
 import org.example.fiveletters.solving.common.engine.service.filtering.ManyActionsFilteringService;
 import org.example.fiveletters.solving.common.util.DictionariesChecker;
 import org.slf4j.event.Level;
@@ -42,8 +43,9 @@ public class BeginningSearchApplication {
             return;
         }
 
-        List<FilteringResult> filteringResults =
-            new ManyActionsFilteringService(answersDictionary.getWords(), beginnings, Level.INFO).filterActions(10);
+        List<FilteringResult> filteringResults = new ManyActionsFilteringService(
+            answersDictionary.getWords(), beginnings, Level.INFO, FilteringStrategy.AVERAGE
+        ).filterActions(10);
 
         log.info(formatLogMessage(filteringResults));
 

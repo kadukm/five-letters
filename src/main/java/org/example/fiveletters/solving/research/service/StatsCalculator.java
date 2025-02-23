@@ -14,7 +14,9 @@ import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.engine.dto.Action;
 import org.example.fiveletters.solving.common.engine.dto.State;
 import org.example.fiveletters.solving.common.engine.service.FiveLettersEngine;
-import org.example.fiveletters.solving.common.engine.service.OptimalNextWordSearcher;
+import org.example.fiveletters.solving.common.engine.service.nextword.NextWordSearchStrategy;
+import org.example.fiveletters.solving.common.engine.service.nextword.OptimalNextWordSearcher;
+import org.example.fiveletters.solving.common.engine.service.filtering.FilteringStrategy;
 import org.example.fiveletters.solving.research.dto.GameStats;
 import org.example.fiveletters.solving.research.dto.SummaryStats;
 
@@ -24,8 +26,8 @@ public class StatsCalculator {
     private final Dictionary allWordsDictionary;
     private final Dictionary answersDictionary;
 
-    private final FiveLettersEngine engine = new FiveLettersEngine();
-    private final OptimalNextWordSearcher optimalNextWordSearcher = new OptimalNextWordSearcher();
+    private final FiveLettersEngine engine;
+    private final OptimalNextWordSearcher optimalNextWordSearcher;
 
     private final Word answer;
     private State state;
@@ -33,10 +35,14 @@ public class StatsCalculator {
 
     private final AtomicInteger progress;
 
-    private StatsCalculator(Dictionary allWordsDictionary, Dictionary answersDictionary, Word answer,
-                            AtomicInteger progress) {
+    private StatsCalculator(Dictionary allWordsDictionary, Dictionary answersDictionary,
+                            Word answer, AtomicInteger progress,
+                            FilteringStrategy filteringStrategy, NextWordSearchStrategy nextWordSearchStrategy) {
         this.allWordsDictionary = allWordsDictionary;
         this.answersDictionary = answersDictionary;
+
+        this.engine = new FiveLettersEngine();
+        this.optimalNextWordSearcher = new OptimalNextWordSearcher(filteringStrategy, nextWordSearchStrategy);
 
         this.answer = answer;
         this.state = State.createInitialState(answersDictionary.getWords());
@@ -45,13 +51,18 @@ public class StatsCalculator {
         this.progress = progress;
     }
 
-    public static SummaryStats calculate(Dictionary allWordsDictionary, Dictionary answersDictionary,
-                                         Action beginning) {
+    public static SummaryStats calculate(
+        Dictionary allWordsDictionary, Dictionary answersDictionary, Action beginning,
+        FilteringStrategy filteringStrategy, NextWordSearchStrategy nextWordSearchStrategy
+    ) {
         AtomicInteger progress = new AtomicInteger(0);
         logProgress(0, answersDictionary.getWords().size());
 
         List<CompletableFuture<GameStats>> futures = answersDictionary.getWords().stream()
-            .map(answer -> new StatsCalculator(allWordsDictionary, answersDictionary, answer, progress))
+            .map(answer -> new StatsCalculator(
+                allWordsDictionary, answersDictionary, answer, progress,
+                filteringStrategy, nextWordSearchStrategy
+            ))
             .map(calculator -> CompletableFuture.supplyAsync(() -> calculator.runGame(beginning)))
             .toList();
 

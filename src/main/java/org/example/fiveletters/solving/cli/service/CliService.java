@@ -9,7 +9,9 @@ import org.example.fiveletters.solving.common.engine.dto.GuessResponse;
 import org.example.fiveletters.solving.common.engine.dto.LetterStatus;
 import org.example.fiveletters.solving.common.engine.dto.State;
 import org.example.fiveletters.solving.common.engine.service.FiveLettersEngine;
-import org.example.fiveletters.solving.common.engine.service.OptimalNextWordSearcher;
+import org.example.fiveletters.solving.common.engine.service.nextword.NextWordSearchStrategy;
+import org.example.fiveletters.solving.common.engine.service.nextword.OptimalNextWordSearcher;
+import org.example.fiveletters.solving.common.engine.service.filtering.FilteringStrategy;
 
 @Slf4j
 public class CliService {
@@ -20,7 +22,8 @@ public class CliService {
     private final Dictionary answersDictionary;
 
     private final FiveLettersEngine engine = new FiveLettersEngine();
-    private final OptimalNextWordSearcher optimalNextWordSearcher = new OptimalNextWordSearcher();
+    private final OptimalNextWordSearcher optimalNextWordSearcher =
+        new OptimalNextWordSearcher(FilteringStrategy.AVERAGE, NextWordSearchStrategy.ALL_WORDS);
 
     private final InputOutputService inputOutputService = new InputOutputService();
 
