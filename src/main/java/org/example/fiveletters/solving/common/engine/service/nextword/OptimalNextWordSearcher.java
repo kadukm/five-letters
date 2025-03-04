@@ -34,7 +34,7 @@ public class OptimalNextWordSearcher {
 
     private List<Action> getActionsToFilter(Set<Word> words) {
         return words.stream()
-            .map(w -> new Action(Set.of(w)))
+            .map(w -> new Action(List.of(w)))
             .toList();
     }
 }

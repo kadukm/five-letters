@@ -18,6 +18,20 @@ public class AllWordsDictionary implements Dictionary {
 
     private final Set<Word> words;
 
+    public static AllWordsDictionary read(String filename) throws IOException {
+        Set<Word> words;
+
+        try (Stream<String> lines = Files.lines(Path.of(filename))) {
+            words = lines
+                .map(AllWordsDictionary::parseFromCsvLine)
+                .map(WordDto::value)
+                .map(Word::new)
+                .collect(Collectors.toSet());
+        }
+
+        return new AllWordsDictionary(words);
+    }
+
     public static AllWordsDictionary read(String filename, WordSource... additionalSources) throws IOException {
         Set<Word> words;
 

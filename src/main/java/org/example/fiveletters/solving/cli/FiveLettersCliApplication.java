@@ -1,8 +1,7 @@
 package org.example.fiveletters.solving.cli;
 
 import java.io.IOException;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import java.util.stream.Stream;
 import org.example.fiveletters.solving.cli.service.CliService;
 import org.example.fiveletters.solving.common.dictionary.Dictionary;
@@ -22,17 +21,14 @@ public class FiveLettersCliApplication {
         DictionariesChecker.check(allWordsDictionary, answersDictionary);
 
         Action beginning = createCustomBeginning();
-//        Action beginning = createCustomBeginning("норка");
-//        Action beginning = createCustomBeginning("сплин", "курва", "метод");
-//        Action beginning = createCustomBeginning("гниль", "пушка", "сброд", "взмет");
 
         new CliService(allWordsDictionary, answersDictionary).run(beginning);
     }
 
     private static Action createCustomBeginning(String ... values) {
-        Set<Word> words = Stream.of(values)
+        List<Word> words = Stream.of(values)
             .map(Word::new)
-            .collect(Collectors.toSet());
+            .toList();
 
         return new Action(words);
     }

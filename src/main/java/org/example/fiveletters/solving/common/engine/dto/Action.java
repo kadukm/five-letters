@@ -1,24 +1,28 @@
 package org.example.fiveletters.solving.common.engine.dto;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Stream;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.example.fiveletters.solving.common.domain.Word;
 
 @Data
-@RequiredArgsConstructor
 public class Action {
 
-    private final Set<Word> words;
+    private final List<Word> words;
 
     public Action() {
-        words = Set.of();
+        words = List.of();
+    }
+
+    public Action(Collection<Word> words) {
+        this.words = words.stream().toList();
     }
 
     public Action addWord(Word word) {
-        HashSet<Word> newWords = new HashSet<>(words);
-        newWords.add(word);
+        List<Word> newWords = Stream
+            .concat(words.stream(), Stream.of(word))
+            .toList();
 
         return new Action(newWords);
     }

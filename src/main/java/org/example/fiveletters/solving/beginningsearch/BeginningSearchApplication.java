@@ -3,8 +3,6 @@ package org.example.fiveletters.solving.beginningsearch;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.example.fiveletters.solving.beginningsearch.service.BruteForceUniqueBeginningProducer;
@@ -32,9 +30,9 @@ public class BeginningSearchApplication {
         DictionariesChecker.check(allWordsDictionary, answersDictionary);
 
 //        List<Action> beginnings = createCustomBeginning("океан");
-        List<Action> beginnings = FirstWordBeginningProducer.produce(allWordsDictionary);
+//        List<Action> beginnings = FirstWordBeginningProducer.produce(allWordsDictionary);
+        List<Action> beginnings = LetterFrequencyUniqueBeginningProducer.produce(allWordsDictionary, answersDictionary, 4);
 //        List<Action> beginnings = BruteForceUniqueBeginningProducer.produce(allWordsDictionary, 4);
-//        List<Action> beginnings = LetterFrequencyUniqueBeginningProducer.produce(allWordsDictionary, answersDictionary, 4);
 
         log.info("Found beginnings: {}", beginnings.size());
 
@@ -55,20 +53,20 @@ public class BeginningSearchApplication {
     private static List<Action> createCustomBeginning(String value) {
         return Optional.of(value)
             .map(Word::new)
-            .map(Set::of)
+            .map(List::of)
             .map(Action::new)
             .map(List::of)
             .orElseThrow();
     }
 
     private static void findBeginningPosition(List<FilteringResult> filteringResults, String... values) {
-        Set<Word> wordsToFind = Stream.of(values)
+        List<Word> wordsToFind = Stream.of(values)
             .map(Word::new)
-            .collect(Collectors.toSet());
+            .toList();
 
         for (int i = 0; i < filteringResults.size(); i++) {
             FilteringResult filteringResult = filteringResults.get(i);
-            Set<Word> currentWords = filteringResult.action().getWords();
+            List<Word> currentWords = filteringResult.action().getWords();
             if (currentWords.equals(wordsToFind)) {
                 log.info("Beginning {} takes {} place of {}", wordsToFind, i + 1, filteringResults.size());
                 return;

@@ -3,9 +3,7 @@ package org.example.fiveletters.solving.research;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.SortedMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.example.fiveletters.solving.beginningsearch.service.FirstWordBeginningProducer;
@@ -37,9 +35,8 @@ public class ResearchApplication {
 
         DictionariesChecker.check(allWordsDictionary, answersDictionary);
 
-        Action beginning = createCustomBeginning("норка");
-//        Action beginning = createOptimalOneWordBeginning(allWordsDictionary, answersDictionary);
-//        Action beginning = createOptimalFewWordsBeginning(allWordsDictionary, answersDictionary, 4);
+//        Action beginning = createCustomBeginning("взмыв");
+        Action beginning = createOptimalBeginning(allWordsDictionary, answersDictionary, 1);
 
         log.info("Using beginning {}", beginning.getWords());
 
@@ -62,11 +59,20 @@ public class ResearchApplication {
     }
 
     private static Action createCustomBeginning(String ... values) {
-        Set<Word> words = Stream.of(values)
+        List<Word> words = Stream.of(values)
             .map(Word::new)
-            .collect(Collectors.toSet());
+            .toList();
 
         return new Action(words);
+    }
+
+    private static Action createOptimalBeginning(Dictionary allWordsDictionary, Dictionary answersDictionary,
+                                                 int wordsCount) {
+        if (wordsCount == 1) {
+            return createOptimalOneWordBeginning(allWordsDictionary, answersDictionary);
+        } else {
+            return createOptimalFewWordsBeginning(allWordsDictionary, answersDictionary, wordsCount);
+        }
     }
 
     private static Action createOptimalOneWordBeginning(Dictionary allWordsDictionary, Dictionary answersDictionary) {

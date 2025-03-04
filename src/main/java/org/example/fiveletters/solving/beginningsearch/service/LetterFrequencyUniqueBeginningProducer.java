@@ -2,6 +2,7 @@ package org.example.fiveletters.solving.beginningsearch.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -17,32 +18,39 @@ public class LetterFrequencyUniqueBeginningProducer {
 
     private final int wordCountToFind;
     private final List<UniqueLetterWord> uniqueLetterWords;
+    private final Comparator<Word> wordComparator;
 
-    protected LetterFrequencyUniqueBeginningProducer(int wordCountToFind, List<UniqueLetterWord> uniqueLetterWords) {
+    protected LetterFrequencyUniqueBeginningProducer(int wordCountToFind,
+                                                     List<UniqueLetterWord> uniqueLetterWords,
+                                                     Comparator<Word> wordComparator) {
         this.wordCountToFind = wordCountToFind;
         this.uniqueLetterWords = uniqueLetterWords;
+        this.wordComparator = wordComparator;
     }
 
     public static List<Action> produce(Dictionary allWordsDictionary, Dictionary answersDictionary, int wordsCount) {
         List<Integer> searchMasks = new SearchMaskFinder().findBestSearchMasks(answersDictionary, wordsCount);
 
+        Comparator<Word> wordComparator = Comparator.comparing(w -> answersDictionary.getWords().contains(w) ? -1 : 0);
+
         return searchMasks.stream()
             .map(searchMask -> LetterFrequencyUniqueBeginningProducer
-                .produce(allWordsDictionary, wordsCount, searchMask)
+                .produce(allWordsDictionary, wordComparator, wordsCount, searchMask)
             )
             .flatMap(Collection::stream)
             .toList();
     }
 
-    private static List<Action> produce(Dictionary dictionary, int wordsCount, int searchMask) {
+    private static List<Action> produce(Dictionary dictionary, Comparator<Word> wordComparator,
+                                        int wordsCount, int searchMask) {
         LetterFrequencyUniqueBeginningProducer searcher = new LetterFrequencyUniqueBeginningProducer(
-            wordsCount, filterWords(dictionary.getWords(), searchMask)
+            wordsCount, filterWords(dictionary.getWords(), searchMask), wordComparator
         );
 
         List<Action> result = new ArrayList<>();
-        Set<Action> usedActions = new HashSet<>();
+        Set<Set<Word>> usedBeginnings = new HashSet<>();
 
-        searcher.produceInternal(result, usedActions, new Action());
+        searcher.produceInternal(result, usedBeginnings, Set.of());
 
         return result;
     }
@@ -61,32 +69,40 @@ public class LetterFrequencyUniqueBeginningProducer {
         return conjunctionWithSearchMask == word.getMask();
     }
 
-    private void produceInternal(
-        List<Action> result,
-        Set<Action> usedActions,
-        Action currentAction
-    ) {
+    private void produceInternal(List<Action> result, Set<Set<Word>> usedBeginnings, Set<Word> currentBeginning) {
         for (UniqueLetterWord uniqueLetterWord : uniqueLetterWords) {
-            Action nextAction = currentAction.addWord(uniqueLetterWord.getWord());
-            if (usedActions.contains(nextAction)) {
+            Set<Word> nextBeginning = new HashSet<>(currentBeginning);
+            nextBeginning.add(uniqueLetterWord.getWord());
+
+            if (usedBeginnings.contains(nextBeginning)) {
                 continue;
             }
 
-            if (nextAction.getWordsCount() == wordCountToFind) {
-                result.add(nextAction);
+            if (nextBeginning.size() == wordCountToFind) {
+                result.add(buildAction(nextBeginning));
 
-                log.debug(String.join(" ", nextAction.getWords().stream().map(Word::toString).toList()));
+                log.debug(String.join(" ", nextBeginning.stream().map(Word::toString).toList()));
             } else {
                 LetterFrequencyUniqueBeginningProducer nextSearcher = remove(uniqueLetterWord);
-                nextSearcher.produceInternal(result, usedActions, nextAction);
+                nextSearcher.produceInternal(result, usedBeginnings, nextBeginning);
             }
 
-            usedActions.add(nextAction);
+            usedBeginnings.add(nextBeginning);
         }
     }
 
+    private Action buildAction(Set<Word> beginning) {
+        List<Word> beginningList = beginning.stream()
+            .sorted(wordComparator)
+            .toList();
+
+        return new Action(beginningList);
+    }
+
     private LetterFrequencyUniqueBeginningProducer remove(UniqueLetterWord wordToRemove) {
-        return new LetterFrequencyUniqueBeginningProducer(wordCountToFind, filterUniqueLetterWords(wordToRemove));
+        return new LetterFrequencyUniqueBeginningProducer(
+            wordCountToFind, filterUniqueLetterWords(wordToRemove), wordComparator
+        );
     }
 
     private List<UniqueLetterWord> filterUniqueLetterWords(UniqueLetterWord wordToRemove) {
