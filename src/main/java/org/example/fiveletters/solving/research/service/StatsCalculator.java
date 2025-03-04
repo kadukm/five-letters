@@ -112,7 +112,9 @@ public class StatsCalculator {
         applyBeginning(beginning);
 
         while (inProgress) {
-            Word word = optimalNextWordSearcher.findNextWord(allWordsDictionary.getWords(), state.getPossibleAnswers());
+            Word word = optimalNextWordSearcher
+                .findNextWord(allWordsDictionary.getWords(), state.getPossibleAnswers())
+                .getFirstWord();
             applyWord(word);
         }
 

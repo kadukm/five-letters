@@ -5,18 +5,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.fiveletters.solving.common.dictionary.Dictionary;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.engine.dto.Action;
+import org.example.fiveletters.solving.common.engine.dto.FilteringResult;
 import org.example.fiveletters.solving.common.engine.dto.GuessResponse;
 import org.example.fiveletters.solving.common.engine.dto.LetterStatus;
 import org.example.fiveletters.solving.common.engine.dto.State;
 import org.example.fiveletters.solving.common.engine.service.FiveLettersEngine;
+import org.example.fiveletters.solving.common.engine.service.filtering.FilteringStrategy;
 import org.example.fiveletters.solving.common.engine.service.nextword.NextWordSearchStrategy;
 import org.example.fiveletters.solving.common.engine.service.nextword.OptimalNextWordSearcher;
-import org.example.fiveletters.solving.common.engine.service.filtering.FilteringStrategy;
 
 @Slf4j
 public class CliService {
 
     private static final int STATE_REPRESENTATION_WORDS_COUNT = 20;
+
+    private static final String FOUND_NEXT_OPTIMAL_WORD_LOG_MESSAGE = """
+        Found next optimal word: {}
+          average remaining answers count: {}
+          max remaining answers count: {}
+        """;
 
     private final Dictionary allWordsDictionary;
     private final Dictionary answersDictionary;
@@ -108,9 +115,21 @@ public class CliService {
     private Word getNextWord() {
         return inputOutputService.readWordOptionally()
             .map(Word::new)
-            .orElseGet(
-                () -> optimalNextWordSearcher.findNextWord(allWordsDictionary.getWords(), state.getPossibleAnswers())
-            );
+            .orElseGet(this::getNextOptimalWord);
+    }
+
+    private Word getNextOptimalWord() {
+        FilteringResult filteringResult = optimalNextWordSearcher
+            .findNextWord(allWordsDictionary.getWords(), state.getPossibleAnswers());
+
+        log.info(
+            FOUND_NEXT_OPTIMAL_WORD_LOG_MESSAGE,
+            filteringResult.getFirstWord(),
+            filteringResult.averageRemainingAnswersCount(),
+            filteringResult.maxRemainingAnswersCount()
+        );
+
+        return filteringResult.getFirstWord();
     }
 
     private String getShortStateRepresentation() {

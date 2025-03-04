@@ -19,17 +19,14 @@ public class OptimalNextWordSearcher {
         this.nextWordSearchStrategy = nextWordSearchStrategy;
     }
 
-    public Word findNextWord(Set<Word> allWords, Set<Word> possibleAnswers) {
+    public FilteringResult findNextWord(Set<Word> allWords, Set<Word> possibleAnswers) {
         Set<Word> wordsToFilter = switch (nextWordSearchStrategy) {
             case ALL_WORDS -> allWords;
             case ANSWERS -> possibleAnswers;
         };
         List<Action> actions = getActionsToFilter(wordsToFilter);
 
-        FilteringResult filteringResult =
-            new OneActionFilteringService(possibleAnswers, actions, Level.DEBUG, filteringStrategy).filterActions();
-
-        return filteringResult.action().getWords().stream().findFirst().orElseThrow();
+        return new OneActionFilteringService(possibleAnswers, actions, Level.DEBUG, filteringStrategy).filterActions();
     }
 
     private List<Action> getActionsToFilter(Set<Word> words) {
