@@ -12,6 +12,7 @@ import org.example.fiveletters.solving.common.dictionary.Dictionary;
 import org.example.fiveletters.solving.common.engine.dto.Action;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.beginningsearch.dto.UniqueLetterWord;
+import org.example.fiveletters.solving.common.util.MaskUtils;
 
 @Slf4j
 public class LetterFrequencyUniqueBeginningProducer {
@@ -20,7 +21,7 @@ public class LetterFrequencyUniqueBeginningProducer {
     private final List<UniqueLetterWord> uniqueLetterWords;
     private final Comparator<Word> wordComparator;
 
-    protected LetterFrequencyUniqueBeginningProducer(int wordCountToFind,
+    private LetterFrequencyUniqueBeginningProducer(int wordCountToFind,
                                                      List<UniqueLetterWord> uniqueLetterWords,
                                                      Comparator<Word> wordComparator) {
         this.wordCountToFind = wordCountToFind;
@@ -43,6 +44,8 @@ public class LetterFrequencyUniqueBeginningProducer {
 
     private static List<Action> produce(Dictionary dictionary, Comparator<Word> wordComparator,
                                         int wordsCount, int searchMask) {
+        log.info("Handle mask {}", MaskUtils.maskToString(searchMask));
+
         LetterFrequencyUniqueBeginningProducer searcher = new LetterFrequencyUniqueBeginningProducer(
             wordsCount, filterWords(dictionary.getWords(), searchMask), wordComparator
         );
@@ -51,6 +54,8 @@ public class LetterFrequencyUniqueBeginningProducer {
         Set<Set<Word>> usedBeginnings = new HashSet<>();
 
         searcher.produceInternal(result, usedBeginnings, Set.of());
+
+        log.info("Produced {} beginnings for mask {}", result.size(), MaskUtils.maskToString(searchMask));
 
         return result;
     }
@@ -79,6 +84,7 @@ public class LetterFrequencyUniqueBeginningProducer {
             }
 
             if (nextBeginning.size() == wordCountToFind) {
+                usedBeginnings.add(nextBeginning);
                 result.add(buildAction(nextBeginning));
 
                 log.debug(String.join(" ", nextBeginning.stream().map(Word::toString).toList()));
@@ -87,7 +93,16 @@ public class LetterFrequencyUniqueBeginningProducer {
                 nextSearcher.produceInternal(result, usedBeginnings, nextBeginning);
             }
 
-            usedBeginnings.add(nextBeginning);
+            // Исключаем из обработки те наборы слов, что уже были обработаны.
+            // Например, если мы сначала обработали "гниль"+"сброд" (и все дочерние комбинации),
+            // то в следующий раз, когда наткнемся на "сброд"+"гниль", то обрабатывать их еще раз смысла нет.
+            // Учитываем только наборы из двух слов, а не все возможные наборы, потому что если учитывать все
+            // возможные наборы, то при достаточно большом wordCountToFind и достаточно больших словарях приложение
+            // падает с OutOfMemoryError; при этом если учитывать два слова в наборе, то это отсекает большую часть
+            // дублирующихся проверок
+            if (nextBeginning.size() == 2) {
+                usedBeginnings.add(nextBeginning);
+            }
         }
     }
 
