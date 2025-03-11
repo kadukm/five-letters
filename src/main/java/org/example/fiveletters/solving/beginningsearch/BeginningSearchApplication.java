@@ -50,13 +50,12 @@ public class BeginningSearchApplication {
 //        findBeginningPosition(filteringResults, "океан");
     }
 
-    private static List<Action> createCustomBeginning(String value) {
-        return Optional.of(value)
+    private static List<Action> createCustomBeginning(String ... values) {
+        List<Word> words = Stream.of(values)
             .map(Word::new)
-            .map(List::of)
-            .map(Action::new)
-            .map(List::of)
-            .orElseThrow();
+            .toList();
+
+        return List.of(new Action(words));
     }
 
     private static void findBeginningPosition(List<FilteringResult> filteringResults, String... values) {

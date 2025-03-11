@@ -14,6 +14,7 @@ import org.example.fiveletters.solving.common.dictionary.all.WordSource;
 import org.example.fiveletters.solving.common.dictionary.plain.PlainDictionary;
 import org.example.fiveletters.solving.common.domain.Word;
 import org.example.fiveletters.solving.common.engine.dto.Action;
+import org.example.fiveletters.solving.common.engine.dto.FilteringResult;
 import org.example.fiveletters.solving.common.engine.service.filtering.FilteringStrategy;
 import org.example.fiveletters.solving.common.engine.service.filtering.OneActionFilteringService;
 import org.example.fiveletters.solving.common.engine.service.nextword.NextWordSearchStrategy;
@@ -68,14 +69,24 @@ public class ResearchApplication {
 
     private static Action createOptimalBeginning(Dictionary allWordsDictionary, Dictionary answersDictionary,
                                                  int wordsCount) {
-        if (wordsCount == 1) {
-            return createOptimalOneWordBeginning(allWordsDictionary, answersDictionary);
-        } else {
-            return createOptimalFewWordsBeginning(allWordsDictionary, answersDictionary, wordsCount);
-        }
+        FilteringResult filteringResult = wordsCount == 1
+            ? createOptimalOneWordBeginning(allWordsDictionary, answersDictionary)
+            : createOptimalFewWordsBeginning(allWordsDictionary, answersDictionary, wordsCount);
+
+        log.info(
+            """
+            Found best beginning: {}
+              average remaining answers count: {}
+              max remaining answers count: {}""",
+            filteringResult.action().getWords(),
+            filteringResult.averageRemainingAnswersCount(),
+            filteringResult.maxRemainingAnswersCount()
+        );
+
+        return filteringResult.action();
     }
 
-    private static Action createOptimalOneWordBeginning(Dictionary allWordsDictionary, Dictionary answersDictionary) {
+    private static FilteringResult createOptimalOneWordBeginning(Dictionary allWordsDictionary, Dictionary answersDictionary) {
         log.info("Searching optimal one word beginning");
 
         List<Action> beginnings = switch (NEXT_WORD_SEARCH_STRATEGY) {
@@ -86,11 +97,10 @@ public class ResearchApplication {
         return new OneActionFilteringService(
             answersDictionary.getWords(), beginnings, Level.INFO, FILTERING_STRATEGY
         )
-            .filterActions()
-            .action();
+            .filterActions();
     }
 
-    private static Action createOptimalFewWordsBeginning(Dictionary allWordsDictionary, Dictionary answersDictionary,
+    private static FilteringResult createOptimalFewWordsBeginning(Dictionary allWordsDictionary, Dictionary answersDictionary,
                                                          int wordsCount) {
         log.info("Searching optimal {} words beginning", wordsCount);
 
@@ -100,11 +110,8 @@ public class ResearchApplication {
         return new OneActionFilteringService(
             answersDictionary.getWords(), beginnings, Level.INFO, FILTERING_STRATEGY
         )
-            .filterActions()
-            .action();
+            .filterActions();
     }
-
-
 
     private static String formatStepsStatsString(SortedMap<Integer, Integer> stepsCountStats) {
         String tabulation = "    ";
