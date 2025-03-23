@@ -1,5 +1,6 @@
 package org.example.fiveletters.solving.common.engine.service.nextword;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import org.example.fiveletters.solving.common.engine.dto.Action;
@@ -20,6 +21,14 @@ public class OptimalNextWordSearcher {
     }
 
     public FilteringResult findNextWord(Set<Word> allWords, Set<Word> possibleAnswers) {
+        if (possibleAnswers.size() == 1) {
+            return new FilteringResult(
+                wordToAction(possibleAnswers.stream().findFirst().orElseThrow()),
+                BigDecimal.ONE,
+                1
+            );
+        }
+
         Set<Word> wordsToFilter = switch (nextWordSearchStrategy) {
             case ALL_WORDS -> allWords;
             case ANSWERS -> possibleAnswers;
@@ -31,7 +40,11 @@ public class OptimalNextWordSearcher {
 
     private List<Action> getActionsToFilter(Set<Word> words) {
         return words.stream()
-            .map(w -> new Action(List.of(w)))
+            .map(this::wordToAction)
             .toList();
+    }
+
+    private Action wordToAction(Word word) {
+        return new Action(List.of(word));
     }
 }

@@ -83,7 +83,7 @@ public abstract class AbstractActionFilteringService {
             }
 
             // Если для какого-то ответа мы не получили никакой новой информации,
-            // значит рассматриваемое продолжение точо не является лучшим
+            // значит рассматриваемое продолжение точно не является лучшим
             if (nextState.getPossibleAnswers().size() == initialState.getPossibleAnswers().size()) {
                 return new InternalFilteringResult(action, Integer.MAX_VALUE, Integer.MAX_VALUE);
             }
