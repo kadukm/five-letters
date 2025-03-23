@@ -146,7 +146,7 @@
 аудио;OpenCorpora;
 аудит;OpenCorpora;
 аурат;OpenCorpora;
-афера;OpenCorpora;
+афера;OpenCorpora;exists
 афиша;OpenCorpora;
 африт;OpenCorpora;
 ахеец;OpenCorpora;
@@ -173,7 +173,7 @@
 балей;OpenCorpora;
 балет;OpenCorpora;
 балка;OpenCorpora;
-балык;OpenCorpora;
+балык;OpenCorpora;exists
 бальи;OpenCorpora;
 бамия;OpenCorpora;
 банан;OpenCorpora;
@@ -342,7 +342,7 @@
 бугай;OpenCorpora;
 бугор;OpenCorpora;
 будда;OpenCorpora;
-будка;OpenCorpora;
+будка;OpenCorpora;exists
 будни;OpenCorpora;
 будра;OpenCorpora;
 бузун;OpenCorpora;
@@ -355,7 +355,7 @@
 букса;OpenCorpora;
 булат;OpenCorpora;
 булга;OpenCorpora;exists
-булка;OpenCorpora;
+булка;OpenCorpora;exists
 булла;OpenCorpora;
 бульб;OpenCorpora;
 бурав;OpenCorpora;
@@ -370,7 +370,7 @@
 бурят;OpenCorpora;exists
 бутан;OpenCorpora;
 бутик;OpenCorpora;
-бутил;OpenCorpora;
+бутил;OpenCorpora;exists
 бутон;OpenCorpora;
 бутса;OpenCorpora;
 бутуз;OpenCorpora;
@@ -554,7 +554,7 @@
 выезд;OpenCorpora;
 выжиг;OpenCorpora;exists
 выжим;OpenCorpora;
-вызов;OpenCorpora;
+вызов;OpenCorpora;exists
 вызол;OpenCorpora;
 выкат;OpenCorpora;
 выкос;OpenCorpora;
@@ -691,7 +691,7 @@
 горка;OpenCorpora;
 горло;OpenCorpora;
 город;OpenCorpora;
-горох;OpenCorpora;
+горох;OpenCorpora;exists
 горст;OpenCorpora;
 горюн;OpenCorpora;
 гость;OpenCorpora;
@@ -729,7 +729,7 @@
 губка;OpenCorpora;
 гудок;OpenCorpora;
 гужон;OpenCorpora;
-гузка;OpenCorpora;
+гузка;OpenCorpora;exists
 гузно;OpenCorpora;
 гукер;OpenCorpora;
 гуляш;OpenCorpora;
@@ -858,7 +858,7 @@
 доход;OpenCorpora;
 дочка;OpenCorpora;
 драга;OpenCorpora;
-драже;OpenCorpora;
+драже;OpenCorpora;exists
 драйв;OpenCorpora;
 драка;OpenCorpora;
 драма;OpenCorpora;
@@ -920,7 +920,7 @@
 дышло;OpenCorpora;
 дюкер;OpenCorpora;
 дюрол;OpenCorpora;
-дюшес;OpenCorpora;
+дюшес;OpenCorpora;exists
 дятел;OpenCorpora;
 дёжка;OpenCorpora;
 дёрен;OpenCorpora;
@@ -1020,7 +1020,7 @@
 зайка;OpenCorpora;
 заказ;OpenCorpora;
 закал;OpenCorpora;
-закат;OpenCorpora;
+закат;OpenCorpora;exists
 закол;OpenCorpora;
 закон;OpenCorpora;
 закуп;OpenCorpora;
@@ -1179,7 +1179,7 @@
 йодид;OpenCorpora;
 йомен;OpenCorpora;
 кааба;OpenCorpora;
-кабак;OpenCorpora;
+кабак;OpenCorpora;exists
 кабан;OpenCorpora;
 кабил;OpenCorpora;
 кабул;OpenCorpora;
@@ -1287,7 +1287,7 @@
 кегля;OpenCorpora;
 келпи;OpenCorpora;
 кельт;OpenCorpora;
-келья;OpenCorpora;
+келья;OpenCorpora;exists
 кенар;OpenCorpora;
 кенаф;OpenCorpora;
 кендо;OpenCorpora;
@@ -1297,7 +1297,7 @@
 кетон;OpenCorpora;
 кефир;OpenCorpora;
 кечуа;OpenCorpora;
-кешью;OpenCorpora;
+кешью;OpenCorpora;exists
 кианг;OpenCorpora;
 кибеи;OpenCorpora;
 кибуц;OpenCorpora;
@@ -1318,7 +1318,7 @@
 кирза;OpenCorpora;
 кирка;OpenCorpora;
 кирха;OpenCorpora;
-кисет;OpenCorpora;
+кисет;OpenCorpora;exists
 кисея;OpenCorpora;
 киска;OpenCorpora;
 киста;OpenCorpora;
@@ -1347,7 +1347,7 @@
 клуша;OpenCorpora;
 клюка;OpenCorpora;
 клюфт;OpenCorpora;
-клямс;OpenCorpora;
+клямс;OpenCorpora;not-exists
 кляча;OpenCorpora;
 клёст;OpenCorpora;
 кнель;OpenCorpora;
@@ -1491,7 +1491,7 @@
 кубик;OpenCorpora;
 кубит;OpenCorpora;
 кубок;OpenCorpora;
-кудри;OpenCorpora;
+кудри;OpenCorpora;exists
 кузен;OpenCorpora;
 кузня;OpenCorpora;
 кузов;OpenCorpora;
@@ -1509,7 +1509,7 @@
 кулон;OpenCorpora;
 кульм;OpenCorpora;
 культ;OpenCorpora;
-кулёк;OpenCorpora;
+кулёк;OpenCorpora;exists
 кумач;OpenCorpora;
 кумжа;OpenCorpora;
 кумир;OpenCorpora;
@@ -1566,7 +1566,7 @@
 ламер;OpenCorpora;
 ламия;OpenCorpora;
 лампа;OpenCorpora;
-ламут;OpenCorpora;
+ламут;OpenCorpora;exists
 ландо;OpenCorpora;
 ланды;OpenCorpora;
 ланка;OpenCorpora;
@@ -1596,7 +1596,7 @@
 лезия;OpenCorpora;
 лейас;OpenCorpora;
 лейбл;OpenCorpora;
-лейка;OpenCorpora;
+лейка;OpenCorpora;exists
 лекаж;OpenCorpora;
 лекиф;OpenCorpora;
 лемех;OpenCorpora;
@@ -1694,7 +1694,7 @@
 лунка;OpenCorpora;
 лупка;OpenCorpora;
 лучик;OpenCorpora;
-лучок;OpenCorpora;
+лучок;OpenCorpora;exists
 лыжня;OpenCorpora;
 лыска;OpenCorpora;
 лысун;OpenCorpora;
@@ -1785,7 +1785,7 @@
 мафия;OpenCorpora;
 мафон;OpenCorpora;
 махач;OpenCorpora;
-махра;OpenCorpora;
+махра;OpenCorpora;exists
 махры;OpenCorpora;
 мачок;OpenCorpora;
 мачта;OpenCorpora;
@@ -2368,7 +2368,7 @@
 пемза;OpenCorpora;
 пенал;OpenCorpora;
 пение;OpenCorpora;
-пенис;OpenCorpora;
+пенис;OpenCorpora;exists
 пенка;OpenCorpora;
 пенни;OpenCorpora;
 пенёк;OpenCorpora;
@@ -2464,7 +2464,7 @@
 побои;OpenCorpora;
 побор;OpenCorpora;
 повал;OpenCorpora;
-повар;OpenCorpora;
+повар;OpenCorpora;exists
 повет;OpenCorpora;
 повод;OpenCorpora;
 повой;OpenCorpora;
@@ -2531,7 +2531,7 @@
 пороз;OpenCorpora;
 порок;OpenCorpora;
 порос;OpenCorpora;
-порох;OpenCorpora;
+порох;OpenCorpora;exists
 порск;OpenCorpora;exists
 порто;OpenCorpora;
 порты;OpenCorpora;
@@ -2785,7 +2785,7 @@
 рутил;OpenCorpora;
 ручей;OpenCorpora;
 ручка;OpenCorpora;
-рыбак;OpenCorpora;
+рыбак;OpenCorpora;exists
 рыбец;OpenCorpora;
 рыбка;OpenCorpora;
 рывок;OpenCorpora;
@@ -3289,7 +3289,7 @@
 тефра;OpenCorpora;
 техно;OpenCorpora;
 течка;OpenCorpora;
-тиара;OpenCorpora;
+тиара;OpenCorpora;exists
 тигль;OpenCorpora;
 тизер;OpenCorpora;
 тикер;OpenCorpora;
@@ -3321,7 +3321,7 @@
 томик;OpenCorpora;
 томич;OpenCorpora;
 тонар;OpenCorpora;
-тонер;OpenCorpora;
+тонер;OpenCorpora;exists
 тоник;OpenCorpora;
 тонна;OpenCorpora;
 тонус;OpenCorpora;
@@ -3341,7 +3341,7 @@
 тофус;OpenCorpora;
 тоффи;OpenCorpora;
 тохар;OpenCorpora;
-точка;OpenCorpora;
+точка;OpenCorpora;exists
 трава;OpenCorpora;
 тракт;OpenCorpora;
 трамп;OpenCorpora;
@@ -3447,8 +3447,8 @@
 узина;OpenCorpora;
 узник;OpenCorpora;
 уйгур;OpenCorpora;
-уклад;OpenCorpora;
-уклон;OpenCorpora;
+уклад;OpenCorpora;exists
+уклон;OpenCorpora;exists
 укроп;OpenCorpora;
 укрут;OpenCorpora;
 укрюк;OpenCorpora;
@@ -3785,7 +3785,7 @@
 чешир;OpenCorpora;
 чешка;OpenCorpora;
 чешуя;OpenCorpora;
-чибис;OpenCorpora;
+чибис;OpenCorpora;exists
 чижик;OpenCorpora;
 чикли;OpenCorpora;
 чилим;OpenCorpora;
@@ -3821,13 +3821,13 @@
 чуйка;OpenCorpora;
 чукча;OpenCorpora;
 чулан;OpenCorpora;
-чулок;OpenCorpora;
+чулок;OpenCorpora;exists
 чумак;OpenCorpora;
 чумка;OpenCorpora;
 чурак;OpenCorpora;
 чурек;OpenCorpora;
 чурка;OpenCorpora;
-чутьё;OpenCorpora;
+чутьё;OpenCorpora;exists
 чухна;OpenCorpora;
 чучхе;OpenCorpora;
 чушка;OpenCorpora;
@@ -3940,7 +3940,7 @@
 шпень;OpenCorpora;exists
 шпиль;OpenCorpora;
 шпинь;OpenCorpora;
-шпион;OpenCorpora;
+шпион;OpenCorpora;exists
 шпона;OpenCorpora;
 шпора;OpenCorpora;
 шприц;OpenCorpora;
@@ -3996,7 +3996,7 @@
 щурок;OpenCorpora;
 щучка;OpenCorpora;
 щёкот;OpenCorpora;
-щёлка;OpenCorpora;
+щёлка;OpenCorpora;exists
 щёлок;OpenCorpora;
 щётка;OpenCorpora;
 щёчка;OpenCorpora;
@@ -4122,6 +4122,7 @@
 турка;добавлено-руками;exists
 удило;добавлено-руками;exists
 форте;добавлено-руками;exists
+целка;добавлено-руками;not-exists
 чубик;добавлено-руками;exists
 аанта;поиск-слов.рф;
 абаас;поиск-слов.рф;
@@ -5043,10 +5044,10 @@
 капри;поиск-слов.рф;
 капча;поиск-слов.рф;
 карвы;поиск-слов.рф;
-карен;поиск-слов.рф;
-карет;поиск-слов.рф;
+карен;поиск-слов.рф;not-exists
+карет;поиск-слов.рф;not-exists
 кария;поиск-слов.рф;
-карло;поиск-слов.рф;
+карло;поиск-слов.рф;not-exists
 карок;поиск-слов.рф;
 карты;поиск-слов.рф;
 карук;поиск-слов.рф;
@@ -5165,7 +5166,7 @@
 копец;поиск-слов.рф;
 копие;поиск-слов.рф;
 коппа;поиск-слов.рф;
-корат;поиск-слов.рф;
+корат;поиск-слов.рф;not-exists
 корчь;поиск-слов.рф;
 косая;поиск-слов.рф;
 коска;поиск-слов.рф;
@@ -5199,7 +5200,7 @@
 крими;поиск-слов.рф;
 кринж;поиск-слов.рф;
 кроат;поиск-слов.рф;
-крота;поиск-слов.рф;
+крота;поиск-слов.рф;not-exists
 круть;поиск-слов.рф;
 крыга;поиск-слов.рф;
 крэпс;поиск-слов.рф;
@@ -5900,7 +5901,7 @@
 райта;поиск-слов.рф;
 райфо;поиск-слов.рф;
 райят;поиск-слов.рф;
-ракло;поиск-слов.рф;
+ракло;поиск-слов.рф;not-exists
 рамен;поиск-слов.рф;
 рамет;поиск-слов.рф;
 рамэн;поиск-слов.рф;
@@ -6227,13 +6228,13 @@
 тайра;поиск-слов.рф;
 тайтл;поиск-слов.рф;
 тайфа;поиск-слов.рф;
-такое;поиск-слов.рф;
+такое;поиск-слов.рф;exists
 талец;поиск-слов.рф;
 талит;поиск-слов.рф;
 талус;поиск-слов.рф;
 тангл;поиск-слов.рф;
 танка;поиск-слов.рф;
-танок;поиск-слов.рф;
+танок;поиск-слов.рф;exists
 танхо;поиск-слов.рф;
 таолу;поиск-слов.рф;
 тараф;поиск-слов.рф;
