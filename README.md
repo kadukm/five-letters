@@ -1,8 +1,81 @@
 # five-letters
 
+Репозиторий с исследованием игры "5-букв" (аналог Wordle)
+
+## Описание исследования
+
+Вся подробная информация об исследовании оформлена в виде [статьи на Хабре](https://habr.com/ru/articles/882914/)
+
+В рамках этой статьи можно найти:
+- Как формировались словари для исследования
+- Как реализованы разные алгоритмы (оптимальный; "человеческий"; со стартом из нескольких слов с уникальными буквами)
+- Примеры работы алгоритмов на реальных играх в приложении Т-Банка
+- Подробное описание результатов исследования
+- Выводы, применимые человеком в реальных играх
+
+## Устройство репозитория
+
+В репозитории есть несколько папок:
+- [dictionaries](/dictionaries) - словари, используемые для исследования и для интерактивных игр
+- [research_results](/research_results) - подробные результаты исследования
+- [src](/src) - непосредственно, код проекта
+
+Репозиторий рассчитан **только** на то, чтобы запускать код из IDE
+
+Есть несколько запускаемых файлов:
+- `org.example.fiveletters.wordsparsing` - пакет с функциональностью для формирования словарей
+  - [opencorpora.OpenCorporaApplication](/src/main/java/org/example/fiveletters/wordsparsing/opencorpora/OpenCorporaApplication.java) -
+    парсинг слов с ресурса [OpenCorpora.org](https://opencorpora.org/)
+  - [poiskslov.PoiskSlovApplication](/src/main/java/org/example/fiveletters/wordsparsing/poiskslov/PoiskSlovApplication.java) -
+    парсинг слов с ресурса [поиск-слов.рф](https://xn----dtbqigoecuc.xn--p1ai/suschestvitelnye/5)
+  - [textometr.TextometrApplication](/src/main/java/org/example/fiveletters/wordsparsing/textometr/TextometrApplication.java) -
+    парсинг информации о частотности слов с ресурса [textometr.ru](https://textometr.ru/frequency-check)
+- `org.example.fiveletters.solving` - пакет с функциональностью для взаимодействия с игрой
+  - [beginningsearch.BeginningSearchApplication](/src/main/java/org/example/fiveletters/solving/beginningsearch/BeginningSearchApplication.java) -
+    поиск оптимальных стартов для игры
+  - [cli.FiveLettersCliApplication](/src/main/java/org/example/fiveletters/solving/cli/FiveLettersCliApplication.java) -
+    CLI для интерактивного прохождения игры
+  - [research.ResearchApplication](/src/main/java/org/example/fiveletters/solving/research/ResearchApplication.java) -
+    исследование прохождения игры на разных словарях и разных алгоритмах решения
+
+## Особенности реализации
+
+- Используемые технологии
+  - В проекте не используется никаких фреймворков, в том числе нет DI - всё создается руками
+  - Добавлено базовое логирование на основе
+    [SLF4J Simple Provider](https://www.slf4j.org/apidocs/org/slf4j/simple/SimpleLogger.html)
+  - Для HTTP-запросов используется синхронный клиент
+    [Apache HttpClient 5.4](https://hc.apache.org/httpcomponents-client-5.4.x/index.html)
+  - Для JSON- и XML-сериализации используется [jackson](https://github.com/FasterXML/jackson) (ObjectMapper и XmlMapper)
+  - Для HTML-парсинга используется [jsoup](https://jsoup.org/)
+- Особенности логики
+  - Активно используется работа с битами, потому что 32 уникальные буквы русского алфавита (при условии, что `е` == `ё`)
+    отлично помещаются в битовую маску Integer
+  - Отдельно учтены кейсы, когда одна и та же буква в слове встречается несколько раз. И, кажется, это сделано
+    максимально корректно
+- Оптимизации
+  - В рамках исследования производится много вычислений, и эти вычисления занимают довольно много времени, поэтому в коде 
+    реализованы многопоточные вычисления на базе ForkJoinPool
+  - Я постарался максимально оптимизировать вычисления, но при этом оставить код поддерживаемым. За счет этого все
+    вычисления возможно выполнить на локальном ПК, но некоторые вычисления все-таки занимают довольно много времени -
+    на моем 12-ядерном процессоре самое долгое вычисление заняло у меня около суток
+
+## Nice-to-have фичи
+
+Фичи ниже вряд ли когда-то будут реализованы, они описаны скорее просто для того, чтобы зафиксировать, что 
+именно **не** было сделано в этом проекте:
+
+- [ ] Написать тесты. Потому что сейчас тестов почти нет
+- [ ] Реализовать ретраи для [textometr.ru](https://textometr.ru/frequency-check), потому что иногда запросы
+  отваливаются с `500 Internal Server Error`, и вся программа падает с ошибкой
+- [ ] Реализовать поиск частотности слов не через [textometr.ru](https://textometr.ru/frequency-check), а по корпусу
+  текстов в [OpenCorpora.org](https://opencorpora.org/), потому что, кажется, это более достоверный источник
+
 ## Результаты исследования
 
-Эвристика: минимизация **среднего** кол-ва оставшихся ответов
+Все вычисления выполнены на тэге [habr-article](https://github.com/kadukm/five-letters/tree/habr-article)
+
+**Эвристика по среднему**: минимизация среднего кол-ва оставшихся ответов
 
 <table>
     <tr>
@@ -217,7 +290,7 @@
     </tr>
 </table>
 
-Эвристика: минимизация **максимального** кол-ва оставшихся ответов
+**Эвристика по максимуму**: минимизация максимального кол-ва оставшихся ответов
 
 <table>
     <tr>
@@ -431,3 +504,11 @@
         </td>
     </tr>
 </table>
+
+**Легенда таблиц**:
+- `2066 | 4109`
+  - `2066` - кол-во возможных ответов
+  - `4109` - кол-во слов, допустимых для ввода
+- `3.5286 (0)`
+  - `3.5286` - Среднее кол-во шагов для прохождения игры
+  - `(0)` - Кол-во поражений
